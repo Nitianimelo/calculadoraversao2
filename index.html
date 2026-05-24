@@ -1,0 +1,3907 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHIPRO — Calculadora Automotiva</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: #0c0e14;
+      --bg-sidebar: #12151e;
+      --bg-card: #181b26;
+      --bg-hover: #202436;
+      --border: #252a3a;
+      --border-light: #2e3448;
+      --text-primary: #f0f0f5;
+      --text-secondary: #9ba3b5;
+      --text-muted: #5e6678;
+      --accent: #29B6F6;
+      --accent-dark: #4A90E2;
+      --accent-glow: rgba(41, 182, 246, 0.15);
+      --card-shadow: rgba(0,0,0,0.4);
+      --card-shadow-hover: rgba(0,0,0,0.45);
+      --scrollbar-thumb: #222;
+      --scrollbar-thumb-hover: #333;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.light-mode {
+      --bg-body: #f2f4f8;
+      --bg-sidebar: #ffffff;
+      --bg-card: #ffffff;
+      --bg-hover: #eef0f5;
+      --border: #e2e6ed;
+      --border-light: #d1d6e0;
+      --text-primary: #1a1d29;
+      --text-secondary: #5b6377;
+      --text-muted: #9aa2b5;
+      --accent: #0ea5e9;
+      --accent-dark: #0284c7;
+      --accent-glow: rgba(14, 165, 233, 0.12);
+      --card-shadow: rgba(0,0,0,0.06);
+      --card-shadow-hover: rgba(0,0,0,0.10);
+      --scrollbar-thumb: #c8cdd8;
+      --scrollbar-thumb-hover: #b0b6c4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Layout */
+    .app {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 28px 20px 20px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 44px;
+      padding: 0 4px;
+    }
+
+    .brand img {
+      height: 42px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(41,182,246,0.25));
+    }
+
+    .nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .nav li a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .nav li a:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--border-light);
+    }
+
+    .nav li a.active {
+      background: linear-gradient(90deg, rgba(41,182,246,0.10) 0%, transparent 100%);
+      color: var(--text-primary);
+      border-color: rgba(41,182,246,0.25);
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    .nav li a.active svg {
+      stroke: var(--accent);
+    }
+
+    .nav svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-muted);
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .nav li a:hover svg {
+      stroke: var(--text-secondary);
+    }
+
+    .nav li a.active svg {
+      stroke: var(--accent);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+
+    .account-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      user-select: none;
+    }
+
+    .account-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--border-light);
+    }
+
+    .account-btn.active {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--border-light);
+    }
+
+    .account-dropdown {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: 0 -8px 24px var(--card-shadow-hover);
+      z-index: 50;
+      flex-direction: column;
+    }
+
+    .account-dropdown.open {
+      display: flex;
+    }
+
+    .account-dropdown a,
+    .account-dropdown button {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+      background: none;
+      cursor: pointer;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .account-dropdown a:hover,
+    .account-dropdown button:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .account-dropdown .dropdown-sep {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+
+    .dropdown-logout:hover {
+      background: rgba(255,71,87,0.08) !important;
+      color: var(--error) !important;
+    }
+
+    .settings-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+      margin-bottom: 8px;
+      user-select: none;
+    }
+
+    .settings-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--border-light);
+    }
+
+    /* ===== Settings Modal ===== */
+    .settings-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .settings-overlay.open {
+      display: flex;
+    }
+
+    .settings-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 26px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .settings-card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      letter-spacing: -0.2px;
+    }
+
+    .settings-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-body);
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 10px;
+    }
+
+    .theme-option:hover {
+      border-color: var(--border-light);
+      background: var(--bg-hover);
+    }
+
+    .theme-option.active {
+      border-color: rgba(41,182,246,0.45);
+      background: rgba(41,182,246,0.06);
+    }
+
+    body.light-mode .theme-option.active {
+      border-color: rgba(14,165,233,0.45);
+      background: rgba(14,165,233,0.06);
+    }
+
+    .theme-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .theme-icon.dark  { background: #12151e; color: #f0f0f5; }
+    .theme-icon.system { background: #f2f4f8; color: #1a1d29; border: 1px solid #d1d6e0; }
+
+    .theme-info {
+      flex: 1;
+    }
+
+    .theme-info strong {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: block;
+    }
+
+    .theme-info span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .theme-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .theme-option.active .theme-check {
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+
+    .theme-check svg {
+      width: 12px;
+      height: 12px;
+      stroke: #fff;
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .theme-option.active .theme-check svg {
+      opacity: 1;
+    }
+
+    .settings-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      cursor: pointer;
+      margin-left: auto;
+      transition: var(--transition);
+    }
+
+    .settings-close:hover {
+      background: var(--border-light);
+      color: var(--text-primary);
+    }
+
+    .settings-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    /* ===== Banco de Dados ===== */
+    .banco-dropdown-wrap {
+      max-width: 380px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .banco-dropdown-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .banco-dropdown {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+      position: relative;
+    }
+
+    .banco-dropdown:hover {
+      border-color: var(--border-light);
+      background: var(--bg-hover);
+    }
+
+    .banco-dropdown.open {
+      border-color: rgba(41,182,246,0.4);
+      box-shadow: 0 0 0 3px rgba(41,182,246,0.06);
+    }
+
+    body.light-mode .banco-dropdown.open {
+      border-color: rgba(14,165,233,0.4);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.06);
+    }
+
+    .banco-dropdown svg.arrow {
+      margin-left: auto;
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-muted);
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .banco-dropdown.open svg.arrow {
+      transform: rotate(180deg);
+    }
+
+    .banco-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      z-index: 50;
+      flex-direction: column;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
+    .banco-dropdown-menu.open {
+      display: flex;
+    }
+
+    .banco-dropdown-menu::-webkit-scrollbar { width: 4px; }
+    .banco-dropdown-menu::-webkit-scrollbar-track { background: transparent; }
+    .banco-dropdown-menu::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+
+    .banco-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      background: none;
+      text-align: left;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    .banco-dropdown-item:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .banco-dropdown-item.active {
+      background: rgba(41,182,246,0.06);
+      color: var(--accent);
+    }
+
+    body.light-mode .banco-dropdown-item.active {
+      background: rgba(14,165,233,0.06);
+      color: var(--accent);
+    }
+
+    .banco-dropdown-item .brand-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .banco-content {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .banco-content.active {
+      display: block;
+    }
+
+    .banco-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+      text-align: center;
+      gap: 16px;
+    }
+
+    .banco-empty svg {
+      width: 56px;
+      height: 56px;
+      stroke: var(--border-light);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .banco-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .banco-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .banco-card:hover {
+      border-color: rgba(41,182,246,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px var(--card-shadow-hover), 0 0 0 1px rgba(41,182,246,0.06);
+    }
+
+    .banco-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .banco-card span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 36px 40px 40px;
+      background: var(--bg-body);
+    }
+
+    .main-header {
+      margin-bottom: 32px;
+    }
+
+    .main-header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-primary);
+    }
+
+    .main-header p {
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .grid.two-col {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 640px) {
+      .grid.two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(41,182,246,0.06), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      border-color: rgba(41,182,246,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px var(--card-shadow-hover), 0 0 0 1px rgba(41,182,246,0.08);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--card-icon-bg, rgba(41,182,246,0.08));
+      border: 1px solid var(--card-icon-border, rgba(41,182,246,0.12));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      transition: var(--transition);
+    }
+
+    .card:hover .card-icon {
+      background: var(--card-icon-bg-hover, rgba(41,182,246,0.14));
+      border-color: var(--card-icon-border-hover, rgba(41,182,246,0.25));
+      box-shadow: 0 0 20px var(--card-icon-glow, rgba(41,182,246,0.12));
+    }
+
+    /* ===== ECU Choice Cards ===== */
+    .ecu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      max-width: 820px;
+    }
+    .ecu-grid.four-col {
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 1100px;
+    }
+    @media (max-width: 960px) {
+      .ecu-grid.four-col { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .ecu-grid { grid-template-columns: 1fr; }
+      .ecu-grid.four-col { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 420px) {
+      .ecu-grid.four-col { grid-template-columns: 1fr; }
+    }
+
+    .ecu-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 32px 28px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .ecu-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), var(--ecu-glow, rgba(41,182,246,0.08)), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .ecu-card:hover::before { opacity: 1; }
+
+    .ecu-card:hover {
+      border-color: var(--ecu-border-hover, rgba(41,182,246,0.35));
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px var(--card-shadow-hover), 0 0 0 1px var(--ecu-border-hover, rgba(41,182,246,0.08));
+    }
+
+    .ecu-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: var(--ecu-icon-bg, rgba(41,182,246,0.08));
+      border: 1px solid var(--ecu-icon-border, rgba(41,182,246,0.14));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      position: relative;
+      color: var(--ecu-icon-color, var(--accent));
+    }
+
+    .ecu-card:hover .ecu-icon {
+      background: var(--ecu-icon-bg-hover, rgba(41,182,246,0.14));
+      border-color: var(--ecu-icon-border-hover, rgba(41,182,246,0.3));
+      box-shadow: 0 0 28px var(--ecu-icon-glow, rgba(41,182,246,0.18));
+      transform: scale(1.06);
+    }
+
+    .ecu-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--ecu-icon-color, var(--accent));
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: var(--transition);
+    }
+
+    .ecu-card:hover .ecu-icon svg { stroke-width: 1.8; }
+
+    .ecu-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
+    }
+
+    .ecu-desc {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      max-width: 90%;
+    }
+
+    .ecu-bottom {
+      margin-top: auto;
+      padding-top: 18px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+
+    .ecu-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ecu-tag-color, var(--accent));
+      background: var(--ecu-tag-bg, rgba(41,182,246,0.08));
+      border: 1px solid var(--ecu-tag-border, rgba(41,182,246,0.12));
+      padding: 5px 12px;
+      border-radius: 6px;
+    }
+
+    .ecu-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--ecu-arrow-bg, rgba(41,182,246,0.08));
+      border: 1px solid var(--ecu-arrow-border, rgba(41,182,246,0.12));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .ecu-arrow svg {
+      width: 14px; height: 14px;
+      stroke: var(--ecu-arrow-color, var(--accent));
+      stroke-width: 2; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .ecu-card:hover .ecu-arrow {
+      background: var(--ecu-arrow-bg-hover, rgba(41,182,246,0.18));
+      border-color: var(--ecu-arrow-border-hover, rgba(41,182,246,0.3));
+      transform: translateX(3px);
+    }
+
+    .ecu-logo-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
+      background: var(--logo-bg, rgba(255,255,255,0.02));
+      border: 1px solid var(--logo-border, rgba(255,255,255,0.04));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      padding: 10px;
+    }
+
+    .ecu-card:hover .ecu-logo-wrap {
+      transform: scale(1.05);
+      box-shadow: 0 0 24px var(--logo-border, rgba(255,255,255,0.04));
+    }
+
+    .ecu-logo {
+      width: 56px;
+      height: 56px;
+      display: block;
+      object-fit: contain;
+    }
+
+    .ecu-logo.logo-wide {
+      width: 64px;
+      height: 40px;
+    }
+
+    .card-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--accent);
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      background: rgba(41,182,246,0.08);
+      border: 1px solid rgba(41,182,246,0.12);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* Section Title */
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      margin-top: 8px;
+    }
+
+    /* Placeholder Page */
+    .page {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 60vh;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      stroke: var(--border-light);
+      stroke-width: 1.5;
+      fill: none;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-width: 400px;
+      line-height: 1.5;
+    }
+
+    /* Scrollbar minimalista */
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: transparent; }
+    .main::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
+    .main::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+    /* Feed de Novidades */
+    .feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 680px;
+    }
+
+    .feed-item {
+      display: flex;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .feed-item:last-child {
+      border-bottom: none;
+    }
+
+    .feed-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(41,182,246,0.4);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .feed-content {
+      flex: 1;
+    }
+
+    .feed-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .feed-date {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .feed-content p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===== Editor Hex ===== */
+    .hex-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .hex-tab {
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .hex-tab:hover {
+      border-color: var(--border-light);
+      color: var(--text-primary);
+    }
+
+    .hex-tab.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 16px rgba(41,182,246,0.2);
+    }
+
+    .hex-panel {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .hex-panel.active {
+      display: block;
+    }
+
+    .hex-toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .hex-file-btn {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .hex-file-btn:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+      background: rgba(41,182,246,0.05);
+    }
+
+    .hex-file-btn input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .hex-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    .firmware-tool {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      max-width: 860px;
+    }
+
+    .firmware-tool-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .firmware-tool h2 {
+      font-size: 18px;
+      font-weight: 650;
+      margin-bottom: 6px;
+    }
+
+    .firmware-tool p {
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .firmware-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,183,77,0.22);
+      border-radius: 999px;
+      color: #FFB74D;
+      background: rgba(255,183,77,0.08);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .firmware-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .firmware-status {
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      background: rgba(255,255,255,0.02);
+      font-size: 13px;
+      line-height: 1.6;
+      min-height: 48px;
+    }
+
+    .firmware-status.success {
+      border-color: rgba(46,213,115,0.28);
+      color: #b8f5ce;
+      background: rgba(46,213,115,0.08);
+    }
+
+    .firmware-status.error {
+      border-color: rgba(255,82,82,0.28);
+      color: #ffb8b8;
+      background: rgba(255,82,82,0.08);
+    }
+
+    .firmware-status strong {
+      color: var(--text-primary);
+    }
+
+    #page-ecu-leve .empty-state {
+      display: none;
+    }
+
+    .hex-viewer {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Mono', 'Consolas', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .hex-viewer-header {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      background: var(--bg-hover);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      gap: 16px;
+    }
+
+    .hex-viewer-body {
+      max-height: 60vh;
+      overflow-y: auto;
+      padding: 12px 0;
+    }
+
+    .hex-viewer-body::-webkit-scrollbar { width: 6px; }
+    .hex-viewer-body::-webkit-scrollbar-track { background: transparent; }
+    .hex-viewer-body::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
+    .hex-viewer-body::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+    .hex-row {
+      display: flex;
+      align-items: center;
+      padding: 1px 16px;
+      gap: 16px;
+      transition: background 0.1s;
+    }
+
+    .hex-row:hover {
+      background: rgba(41,182,246,0.04);
+    }
+
+    .hex-offset {
+      width: 72px;
+      flex-shrink: 0;
+      color: var(--accent);
+      opacity: 0.7;
+      font-size: 12px;
+      user-select: none;
+    }
+
+    .hex-bytes {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hex-byte {
+      text-align: center;
+      padding: 1px 2px;
+      border-radius: 3px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.1s;
+      min-width: 20px;
+    }
+
+    .hex-byte:hover {
+      background: rgba(41,182,246,0.12);
+      color: var(--text-primary);
+    }
+
+    .hex-byte.edited {
+      background: rgba(41,182,246,0.18);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .hex-byte.diff {
+      background: rgba(255,71,87,0.18);
+      color: var(--error);
+      font-weight: 600;
+    }
+
+    .hex-ascii {
+      width: 140px;
+      flex-shrink: 0;
+      color: var(--text-muted);
+      font-size: 12px;
+      letter-spacing: 1px;
+      user-select: none;
+      white-space: pre;
+      overflow: hidden;
+    }
+
+    .hex-ascii span.edited {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .hex-ascii span.diff {
+      color: var(--error);
+      font-weight: 600;
+    }
+
+    .hex-input-overlay {
+      position: absolute;
+      background: var(--bg-hover);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: monospace;
+      font-size: 13px;
+      color: var(--accent);
+      outline: none;
+      width: 34px;
+      text-align: center;
+      z-index: 10;
+      text-transform: uppercase;
+    }
+
+    .hex-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .hex-empty svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--border-light);
+      stroke-width: 1.5;
+      fill: none;
+      margin-bottom: 16px;
+    }
+
+    /* Loading state */
+    .hex-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+      gap: 16px;
+    }
+
+    .hex-spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: hexSpin 0.7s linear infinite;
+    }
+
+    @keyframes hexSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Compare lado a lado */
+    .hex-compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 960px) {
+      .hex-compare-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hex-download {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .hex-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(41,182,246,0.25);
+    }
+
+    /* Mobile toggle */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        height: 100%;
+        border-right: none;
+        box-shadow: 10px 0 40px rgba(0,0,0,0.6);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .main {
+        padding: 24px;
+      }
+      .menu-toggle {
+        display: block;
+        margin-bottom: 16px;
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        z-index: 99;
+      }
+      .overlay.show {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Overlay mobile -->
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <img src="uploads/CHIPRO-2.png" alt="CHIPRO">
+    </div>
+
+    <ul class="nav">
+      <li>
+        <a class="active" data-page="inicio" onclick="navigate('inicio', this)">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Início
+        </a>
+      </li>
+      <li>
+        <a data-page="ecu" onclick="navigate('ecu', this)">
+          <svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M7 11H5m14 0h-2M7 13H5m14 0h-2M11 7V5m0 14v-2m2-8V5m0 14v-2"/></svg>
+          ECU
+        </a>
+      </li>
+      <li>
+        <a data-page="airbag" onclick="navigate('airbag', this)">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/><circle cx="12" cy="12" r="3"/></svg>
+          Airbag
+        </a>
+      </li>
+      <li>
+        <a data-page="imobilizadores" onclick="navigate('imobilizadores', this)">
+          <svg viewBox="0 0 24 24"><rect x="3" y="7" width="12" height="10" rx="4"/><path d="M15 10h6v4h-6"/><circle cx="9" cy="12" r="1.5"/></svg>
+          Imobilizadores
+        </a>
+      </li>
+      <li>
+        <a data-page="hex" onclick="navigate('hex', this)">
+          <svg viewBox="0 0 24 24"><path d="M4 20l6-16"/><path d="M14 20l6-16"/><path d="M9 14h6"/></svg>
+          Editor Hex
+        </a>
+      </li>
+      <li>
+        <a data-page="banco" onclick="navigate('banco', this)">
+          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M21 5v14c0 1.66-4 3-9 3s-9-1.34-9-3V5"/></svg>
+          Banco de Dados
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="account-dropdown" id="accountDropdown">
+        <a href="javascript:void(0)" onclick="navigate('conta', document.querySelector('.account-btn')); closeAccountDropdown();">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Sua conta
+        </a>
+        <div class="dropdown-sep"></div>
+        <a href="login.html" class="dropdown-logout">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sair
+        </a>
+      </div>
+      <div class="settings-btn" onclick="openSettingsModal()">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Configurações</span>
+      </div>
+      <div class="account-btn" id="accountBtn" onclick="toggleAccountDropdown()">
+        <div class="avatar">CH</div>
+        <span>Conta</span>
+        <svg id="accountArrow" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-left:auto;transition:transform .25s ease;"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <button class="menu-toggle" onclick="openSidebar()">
+      <svg width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <!-- Página: Início -->
+    <div class="page active" id="page-inicio">
+      <div class="main-header">
+        <h1>Início</h1>
+        <p>Novidades e atualizações da plataforma CHIPRO.</p>
+      </div>
+
+      <div class="feed-list">
+        <div class="feed-item">
+          <div class="feed-dot"></div>
+          <div class="feed-content">
+            <div class="feed-title">Novo módulo Airbag adicionado</div>
+            <div class="feed-date">Hoje</div>
+            <p>Suporte a reset de crash data para unidades Bosch 0285001373 e Continental 5WK4 já disponível na calculadora.</p>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-dot"></div>
+          <div class="feed-content">
+            <div class="feed-title">Atualização de base de dados</div>
+            <div class="feed-date">Ontem</div>
+            <p>Novos modelos de imobilizadores Delphi e Magneti Marelli adicionados ao banco de referência.</p>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-dot"></div>
+          <div class="feed-content">
+            <div class="feed-title">Melhorias no Editor Hex</div>
+            <div class="feed-date">20/05/2026</div>
+            <p>Checksum automático agora suporta algoritmos CRC16 e XOR8 para famílias de ECUs mais recentes.</p>
+          </div>
+        </div>
+
+        <div class="feed-item">
+          <div class="feed-dot"></div>
+          <div class="feed-content">
+            <div class="feed-title">Manutenção programada</div>
+            <div class="feed-date">18/05/2026</div>
+            <p>Serviço de sincronização de chaves ficará indisponível por 30 minutos no próximo domingo, às 03h.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Página: ECU -->
+    <div class="page" id="page-ecu">
+      <div class="main-header">
+        <h1>ECU</h1>
+        <p>Selecione a categoria de veículo para continuar.</p>
+      </div>
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-leve', null)"
+          style="--ecu-glow:rgba(41,182,246,0.10);
+                 --ecu-border-hover:rgba(41,182,246,0.35);
+                 --ecu-icon-bg:rgba(41,182,246,0.08);
+                 --ecu-icon-border:rgba(41,182,246,0.14);
+                 --ecu-icon-bg-hover:rgba(41,182,246,0.16);
+                 --ecu-icon-border-hover:rgba(41,182,246,0.35);
+                 --ecu-icon-glow:rgba(41,182,246,0.20);
+                 --ecu-icon-color:#29B6F6;
+                 --ecu-tag-color:#29B6F6;
+                 --ecu-tag-bg:rgba(41,182,246,0.08);
+                 --ecu-tag-border:rgba(41,182,246,0.14);
+                 --ecu-arrow-bg:rgba(41,182,246,0.08);
+                 --ecu-arrow-border:rgba(41,182,246,0.14);
+                 --ecu-arrow-color:#29B6F6;
+                 --ecu-arrow-bg-hover:rgba(41,182,246,0.20);
+                 --ecu-arrow-border-hover:rgba(41,182,246,0.30);">
+          <div class="ecu-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 16l1.5-4h13l1.5 4"/><rect x="3" y="16" width="18" height="4" rx="1"/><path d="M7 12V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"/><circle cx="6.5" cy="19" r="1.5"/><circle cx="17.5" cy="19" r="1.5"/></svg>
+          </div>
+          <div>
+            <div class="ecu-title">Linha Leve</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Passeio</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel', null)"
+          style="--ecu-glow:rgba(255,183,77,0.10);
+                 --ecu-border-hover:rgba(255,183,77,0.35);
+                 --ecu-icon-bg:rgba(255,183,77,0.08);
+                 --ecu-icon-border:rgba(255,183,77,0.14);
+                 --ecu-icon-bg-hover:rgba(255,183,77,0.16);
+                 --ecu-icon-border-hover:rgba(255,183,77,0.35);
+                 --ecu-icon-glow:rgba(255,183,77,0.20);
+                 --ecu-icon-color:#FFB74D;
+                 --ecu-tag-color:#FFB74D;
+                 --ecu-tag-bg:rgba(255,183,77,0.08);
+                 --ecu-tag-border:rgba(255,183,77,0.14);
+                 --ecu-arrow-bg:rgba(255,183,77,0.08);
+                 --ecu-arrow-border:rgba(255,183,77,0.14);
+                 --ecu-arrow-color:#FFB74D;
+                 --ecu-arrow-bg-hover:rgba(255,183,77,0.20);
+                 --ecu-arrow-border-hover:rgba(255,183,77,0.30);">
+          <div class="ecu-icon">
+            <svg viewBox="0 0 24 24"><path d="M1 16V6a2 2 0 0 1 2-2h11l2 3h5v9"/><path d="M1 16h18"/><circle cx="4" cy="19" r="1.5"/><circle cx="16" cy="19" r="1.5"/><path d="M19 16v-3h2"/></svg>
+          </div>
+          <div>
+            <div class="ecu-title">Linha Diesel</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Pesado</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Página: ECU Linha Leve -->
+    <div class="page" id="page-ecu-leve">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu', document.querySelector('.nav li a[data-page=&quot;ecu&quot;]'))" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Linha Leve</h1>
+          <p>Selecione a montadora para iniciar o atendimento.</p>
+        </div>
+      </div>
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-leve-fiat',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(150,23,17,0.10);--logo-border:rgba(150,23,17,0.24);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/fiat/961711" alt="Fiat">
+          </div>
+          <div><div class="ecu-title">Fiat</div></div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-leve-gm',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,87,184,0.08);--logo-border:rgba(0,87,184,0.18);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/generalmotors/0057B8" alt="General Motors">
+          </div>
+          <div><div class="ecu-title">GM</div></div>
+        </div>
+      </div>
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l1.5-4h13l1.5 4"/><rect x="3" y="16" width="18" height="4" rx="1"/><path d="M7 12V8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"/><circle cx="6.5" cy="19" r="1.5"/><circle cx="17.5" cy="19" r="1.5"/></svg>
+        <h2>Em breve</h2>
+        <p>A lista de montadoras e modelos será disponibilizada em breve. Navegue pelo menu para explorar outras funcionalidades.</p>
+      </div>
+    </div>
+
+    <!-- Página: ECU Linha Diesel -->
+    <!-- Pagina: ECU Linha Leve Fiat -->
+    <div class="page" id="page-ecu-leve-fiat">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-leve', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Fiat</h1>
+          <p>Selecione a calculadora disponivel para linha leve Fiat.</p>
+        </div>
+      </div>
+
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-leve-fiat-iaw7gf-p0420',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(150,23,17,0.10);--logo-border:rgba(150,23,17,0.24);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/fiat/961711" alt="Fiat">
+          </div>
+          <div>
+            <div class="ecu-title">IAW 7GF P0420</div>
+            <div class="ecu-desc">Magneti Marelli IAW 7GF - no checksum</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Patch auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora Fiat IAW 7GF P0420 -->
+    <div class="page" id="page-ecu-leve-fiat-iaw7gf-p0420">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-leve-fiat', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>IAW 7GF P0420</h1>
+          <p>Identifica HW, valida o patch compativel e retorna o arquivo reparado sem checksum.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>P0420</h2>
+            <p>Carregue o flash de 1 MB. HW e identificacao sao exibidos para conferencia; a aplicacao depende da area reparavel.</p>
+          </div>
+          <span class="firmware-badge">Fiat / IAW 7GF</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="fiatIaw7gfP0420File" accept=".bin,.mpc,.ori" onchange="processFiatIaw7gfP0420(this)">
+          </label>
+          <span class="hex-meta" id="fiatIaw7gfP0420Meta">Tamanho esperado: 1 MB</span>
+        </div>
+
+        <div class="firmware-status" id="fiatIaw7gfP0420Status">
+          Aguardando firmware. A calculadora valida o patch por bytes de referencia, nao apenas por HW.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: ECU Linha Leve GM -->
+    <div class="page" id="page-ecu-leve-gm">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-leve', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>GM</h1>
+          <p>Selecione a calculadora disponivel para linha leve GM.</p>
+        </div>
+      </div>
+
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-leve-gm-e83',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,87,184,0.08);--logo-border:rgba(0,87,184,0.18);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/generalmotors/0057B8" alt="General Motors">
+          </div>
+          <div>
+            <div class="ecu-title">GM E83</div>
+            <div class="ecu-desc">Onix / Spin - reset de adaptacao</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Patch auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-leve-gm-e84-p0420',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,87,184,0.08);--logo-border:rgba(0,87,184,0.18);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/generalmotors/0057B8" alt="General Motors">
+          </div>
+          <div>
+            <div class="ecu-title">GM E84 P0420</div>
+            <div class="ecu-desc">Onix - patch P0420</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Patch auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora GM E83 -->
+    <div class="page" id="page-ecu-leve-gm-e83">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-leve-gm', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>GM E83</h1>
+          <p>Identifica SW/part number, valida o patch compativel e retorna o arquivo reparado.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>Reset de adaptacao</h2>
+            <p>Carregue o flash de 2 MB. SW e part number sao exibidos para conferencia; a aplicacao depende da area reparavel.</p>
+          </div>
+          <span class="firmware-badge">GM / E83</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="gmE83File" accept=".bin,.mpc,.ori" onchange="processGmE83(this)">
+          </label>
+          <span class="hex-meta" id="gmE83Meta">Tamanho esperado: 2 MB</span>
+        </div>
+
+        <div class="firmware-status" id="gmE83Status">
+          Aguardando firmware. A calculadora valida o patch por bytes de referencia, nao apenas por SW.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora GM E84 P0420 -->
+    <div class="page" id="page-ecu-leve-gm-e84-p0420">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-leve-gm', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>GM E84 P0420</h1>
+          <p>Identifica o firmware, valida o patch compativel e retorna o arquivo reparado.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>P0420</h2>
+            <p>Carregue o flash de 6 MB. Identificadores sao exibidos para conferencia; a aplicacao depende da area reparavel.</p>
+          </div>
+          <span class="firmware-badge">GM / E84</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="gmE84P0420File" accept=".bin,.mpc,.ori" onchange="processGmE84P0420(this)">
+          </label>
+          <span class="hex-meta" id="gmE84P0420Meta">Tamanho esperado: 6 MB</span>
+        </div>
+
+        <div class="firmware-status" id="gmE84P0420Status">
+          Aguardando firmware. Este script usa arquivo de 6 MB.
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-ecu-diesel">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu', document.querySelector('.nav li a[data-page=&quot;ecu&quot;]'))" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Linha Diesel</h1>
+          <p>Selecione a montadora para iniciar o atendimento.</p>
+        </div>
+      </div>
+      <div class="ecu-grid four-col">
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-mitsubishi',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(230,0,18,0.08);--logo-border:rgba(230,0,18,0.18);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/mitsubishi/E60012" alt="Mitsubishi">
+          </div>
+          <div><div class="ecu-title">Mitsubishi</div></div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-nissan',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(195,0,47,0.08);--logo-border:rgba(195,0,47,0.18);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/nissan/C3002F" alt="Nissan">
+          </div>
+          <div><div class="ecu-title">Nissan</div></div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-toyota',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(235,10,30,0.08);--logo-border:rgba(235,10,30,0.18);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/toyota/EB0A1E" alt="Toyota">
+          </div>
+          <div><div class="ecu-title">Toyota</div></div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-vw',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,30,80,0.12);--logo-border:rgba(0,30,80,0.24);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/volkswagen/2F8CFF" alt="Volkswagen">
+          </div>
+          <div><div class="ecu-title">VW</div></div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-fiat',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(150,23,17,0.10);--logo-border:rgba(150,23,17,0.24);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/fiat/961711" alt="Fiat">
+          </div>
+          <div><div class="ecu-title">Fiat</div></div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-gm',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,87,184,0.08);--logo-border:rgba(0,87,184,0.18);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/generalmotors/0057B8" alt="General Motors">
+          </div>
+          <div><div class="ecu-title">GM</div></div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-ford',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,47,135,0.10);--logo-border:rgba(0,47,135,0.22);">
+            <img class="ecu-logo logo-wide" src="https://cdn.simpleicons.org/ford/2F8CFF" alt="Ford">
+          </div>
+          <div><div class="ecu-title">Ford</div></div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-kia',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(255,255,255,0.06);--logo-border:rgba(255,255,255,0.14);">
+            <img class="ecu-logo logo-wide" src="https://cdn.simpleicons.org/kia/F2F6FA" alt="Kia">
+          </div>
+          <div><div class="ecu-title">Kia</div></div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-hyundai',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,44,95,0.10);--logo-border:rgba(0,44,95,0.22);">
+            <img class="ecu-logo logo-wide" src="https://cdn.simpleicons.org/hyundai/2F8CFF" alt="Hyundai">
+          </div>
+          <div><div class="ecu-title">Hyundai</div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Página: Airbag -->
+    <!-- Pagina: ECU Diesel Fiat -->
+    <div class="page" id="page-ecu-diesel-fiat">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Fiat</h1>
+          <p>Selecione a calculadora disponivel para linha diesel Fiat.</p>
+        </div>
+      </div>
+
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-diesel-fiat-ducato-mjd8f3',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(150,23,17,0.10);--logo-border:rgba(150,23,17,0.24);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/fiat/961711" alt="Fiat">
+          </div>
+          <div>
+            <div class="ecu-title">Ducato MJD8F3</div>
+            <div class="ecu-desc">Magneti Marelli - reset de adaptacao</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Patch auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora Ducato MJD8F3 -->
+    <div class="page" id="page-ecu-diesel-fiat-ducato-mjd8f3">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel-fiat', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Ducato MJD8F3</h1>
+          <p>Identifica HW/SW no bloco MJD, valida o patch compativel e retorna o arquivo reparado.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>Reset de adaptacao</h2>
+            <p>Carregue o dump de 2 MB ou 2 MB + 1024 bytes. HW/SW sao exibidos para conferencia; a aplicacao depende da area reparavel.</p>
+          </div>
+          <span class="firmware-badge">Fiat / MJD8F3</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="ducatoMjd8f3File" accept=".bin,.mpc,.ori" onchange="processDucatoMjd8f3(this)">
+          </label>
+          <span class="hex-meta" id="ducatoMjd8f3Meta">Tamanhos esperados: 2 MB ou 2 MB + 1024 bytes</span>
+        </div>
+
+        <div class="firmware-status" id="ducatoMjd8f3Status">
+          Aguardando firmware. A calculadora valida o patch por bytes de referencia, nao apenas por numero de software.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: ECU Diesel Volkswagen -->
+    <div class="page" id="page-ecu-diesel-vw">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Volkswagen</h1>
+          <p>Selecione a calculadora disponivel para linha diesel Volkswagen.</p>
+        </div>
+      </div>
+
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-diesel-vw-amarok-edc17c54',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,30,80,0.12);--logo-border:rgba(0,30,80,0.24);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/volkswagen/2F8CFF" alt="Volkswagen">
+          </div>
+          <div>
+            <div class="ecu-title">Amarok EDC17C54</div>
+            <div class="ecu-desc">Bosch EDC17C54 - reset de adaptacao</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Patch auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora Amarok EDC17C54 -->
+    <div class="page" id="page-ecu-diesel-vw-amarok-edc17c54">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel-vw', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Amarok EDC17C54</h1>
+          <p>Identifica part number/SW, valida o patch compativel e retorna o arquivo reparado.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>Reset de adaptacao</h2>
+            <p>Carregue o dump de 4 MB. Part number e SW sao exibidos para conferencia; a aplicacao depende da area reparavel.</p>
+          </div>
+          <span class="firmware-badge">VW / EDC17C54</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="amarokEdc17c54File" accept=".bin,.mpc,.ori" onchange="processAmarokEdc17c54(this)">
+          </label>
+          <span class="hex-meta" id="amarokEdc17c54Meta">Tamanho esperado: 4 MB</span>
+        </div>
+
+        <div class="firmware-status" id="amarokEdc17c54Status">
+          Aguardando firmware. A calculadora valida o patch por bytes de referencia, nao apenas por numero de software.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: ECU Diesel Hyundai -->
+    <div class="page" id="page-ecu-diesel-hyundai">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Hyundai</h1>
+          <p>Selecione a calculadora disponivel para linha diesel Hyundai.</p>
+        </div>
+      </div>
+
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-diesel-hyundai-hr-dcm37',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,44,95,0.10);--logo-border:rgba(0,44,95,0.22);">
+            <img class="ecu-logo logo-wide" src="https://cdn.simpleicons.org/hyundai/2F8CFF" alt="Hyundai">
+          </div>
+          <div>
+            <div class="ecu-title">HR DCM3.7</div>
+            <div class="ecu-desc">Delphi DCM3.7 - reset de adaptacao</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Patch auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora HR DCM3.7 -->
+    <div class="page" id="page-ecu-diesel-hyundai-hr-dcm37">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel-hyundai', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>HR DCM3.7</h1>
+          <p>Valida o patch compativel por area reparavel e retorna o arquivo reparado.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>Reset de adaptacao</h2>
+            <p>Carregue o dump de 0x220000 bytes. Identificadores sao exibidos para conferencia quando encontrados.</p>
+          </div>
+          <span class="firmware-badge">Hyundai / DCM3.7</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="hrDcm37File" accept=".bin,.mpc,.ori" onchange="processHrDcm37(this)">
+          </label>
+          <span class="hex-meta" id="hrDcm37Meta">Tamanho esperado: 0x220000 bytes</span>
+        </div>
+
+        <div class="firmware-status" id="hrDcm37Status">
+          Aguardando firmware. A calculadora valida o patch por bytes de referencia, nao apenas por nome de arquivo.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: ECU Diesel Nissan -->
+    <div class="page" id="page-ecu-diesel-nissan">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Nissan</h1>
+          <p>Selecione a calculadora disponivel para linha diesel Nissan.</p>
+        </div>
+      </div>
+
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-diesel-nissan-frontier25',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(195,0,47,0.08);--logo-border:rgba(195,0,47,0.18);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/nissan/C3002F" alt="Nissan">
+          </div>
+          <div>
+            <div class="ecu-title">Frontier 2.5 YD25</div>
+            <div class="ecu-desc">Bloco ID tipo Denso - reset de adaptacao</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Patch auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora Frontier 2.5 -->
+    <div class="page" id="page-ecu-diesel-nissan-frontier25">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel-nissan', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Frontier 2.5 YD25</h1>
+          <p>Identifica HW/SW no flash, valida o patch compativel e retorna o arquivo reparado.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>Reset de adaptacao</h2>
+            <p>Carregue o arquivo de 1 MB ou 1,5 MB. HW/SW sao exibidos para conferencia; a aplicacao depende da area reparavel.</p>
+          </div>
+          <span class="firmware-badge">Nissan / YD25</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="frontier25File" accept=".bin,.mpc,.ori" onchange="processFrontier25(this)">
+          </label>
+          <span class="hex-meta" id="frontier25Meta">Tamanhos esperados: 1 MB ou 1,5 MB</span>
+        </div>
+
+        <div class="firmware-status" id="frontier25Status">
+          Aguardando firmware. A calculadora valida o patch por bytes de referencia, nao apenas por numero de software.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: ECU Diesel Ford -->
+    <div class="page" id="page-ecu-diesel-ford">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Ford</h1>
+          <p>Selecione a calculadora disponivel para linha diesel Ford.</p>
+        </div>
+      </div>
+
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-diesel-ford-ranger32-sid208',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,47,135,0.10);--logo-border:rgba(0,47,135,0.22);">
+            <img class="ecu-logo logo-wide" src="https://cdn.simpleicons.org/ford/2F8CFF" alt="Ford">
+          </div>
+          <div>
+            <div class="ecu-title">Ranger 3.2 SID208</div>
+            <div class="ecu-desc">Siemens Continental - reset de adaptacao</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Patch auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="ecu-card" onclick="navigate('ecu-diesel-ford-ranger22-sid208',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(0,47,135,0.10);--logo-border:rgba(0,47,135,0.22);">
+            <img class="ecu-logo logo-wide" src="https://cdn.simpleicons.org/ford/2F8CFF" alt="Ford">
+          </div>
+          <div>
+            <div class="ecu-title">Ranger 2.2 SID208</div>
+            <div class="ecu-desc">Siemens Continental - reset de adaptacao</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">Patch auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora Ranger 3.2 SID208 -->
+    <div class="page" id="page-ecu-diesel-ford-ranger32-sid208">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel-ford', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Ranger 3.2 SID208</h1>
+          <p>Identifica CAL/SW por padrao, valida o patch compativel e retorna o arquivo reparado.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>Reset de adaptacao</h2>
+            <p>Carregue o dump de 4 MB. HW/SW sao exibidos para conferencia; a aplicacao depende da area reparavel.</p>
+          </div>
+          <span class="firmware-badge">Ford / SID208</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="ranger32Sid208File" accept=".bin,.mpc,.ori" onchange="processRanger32Sid208(this)">
+          </label>
+          <span class="hex-meta" id="ranger32Sid208Meta">Tamanho esperado: 4 MB</span>
+        </div>
+
+        <div class="firmware-status" id="ranger32Sid208Status">
+          Aguardando firmware. A calculadora valida o patch por bytes de referencia, nao apenas por numero de software.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora Ranger 2.2 SID208 -->
+    <div class="page" id="page-ecu-diesel-ford-ranger22-sid208">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel-ford', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Ranger 2.2 SID208</h1>
+          <p>Identifica CAL/SW por padrao, valida o patch compativel e retorna o arquivo reparado.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>Reset de adaptacao</h2>
+            <p>Carregue o dump de 4 MB. HW/SW sao exibidos para conferencia; a aplicacao depende da area reparavel.</p>
+          </div>
+          <span class="firmware-badge">Ford / SID208</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="ranger22Sid208File" accept=".bin,.mpc,.ori" onchange="processRanger22Sid208(this)">
+          </label>
+          <span class="hex-meta" id="ranger22Sid208Meta">Tamanho esperado: 4 MB</span>
+        </div>
+
+        <div class="firmware-status" id="ranger22Sid208Status">
+          Aguardando firmware. A calculadora valida o patch por bytes de referencia, nao apenas por numero de software.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: ECU Diesel Mitsubishi -->
+    <div class="page" id="page-ecu-diesel-mitsubishi">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>Mitsubishi</h1>
+          <p>Selecione a calculadora disponivel para linha diesel Mitsubishi.</p>
+        </div>
+      </div>
+
+      <div class="ecu-grid">
+        <div class="ecu-card" onclick="navigate('ecu-diesel-mitsubishi-triton32',null)">
+          <div class="ecu-logo-wrap" style="--logo-bg:rgba(230,0,18,0.08);--logo-border:rgba(230,0,18,0.18);">
+            <img class="ecu-logo" src="https://cdn.simpleicons.org/mitsubishi/E60012" alt="Mitsubishi">
+          </div>
+          <div>
+            <div class="ecu-title">L200 Triton 3.2</div>
+            <div class="ecu-desc">Denso micro - reset de adaptacao</div>
+          </div>
+          <div class="ecu-bottom">
+            <span class="ecu-tag">HW/SW auto</span>
+            <div class="ecu-arrow">
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagina: Calculadora Triton 3.2 -->
+    <div class="page" id="page-ecu-diesel-mitsubishi-triton32">
+      <div class="main-header" style="display:flex;align-items:center;gap:12px;">
+        <button class="hex-file-btn" onclick="navigate('ecu-diesel-mitsubishi', null)" style="padding:8px 14px;font-size:13px;margin:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <div>
+          <h1>L200 Triton 3.2</h1>
+          <p>Denso micro: identifica HW/SW, valida o patch compativel e retorna o arquivo reparado.</p>
+        </div>
+      </div>
+
+      <div class="firmware-tool">
+        <div class="firmware-tool-head">
+          <div>
+            <h2>Reset de adaptacao</h2>
+            <p>Carregue o arquivo do micro. A plataforma valida a area reparavel e aplica o maior patch compativel.</p>
+          </div>
+          <span class="firmware-badge">Mitsubishi / Denso</span>
+        </div>
+
+        <div class="firmware-actions">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar e reparar
+            <input type="file" id="triton32File" accept=".bin,.mpc,.ori" onchange="processTriton32(this)">
+          </label>
+          <span class="hex-meta" id="triton32Meta">Limite: 4,5 MB</span>
+        </div>
+
+        <div class="firmware-status" id="triton32Status">
+          Aguardando firmware. HW/SW serao exibidos para conferencia, mas a aplicacao depende da compatibilidade do patch.
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-airbag">
+      <div class="main-header">
+        <h1>Airbag</h1>
+        <p>Selecione a montadora e a unidade SRS para reset de crash data ou reparo.</p>
+      </div>
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/><circle cx="12" cy="12" r="3"/></svg>
+        <h2>Reparo Airbag</h2>
+        <p>A ferramenta será disponibilizada em breve. Navegue pelo menu para explorar outras funcionalidades.</p>
+      </div>
+    </div>
+
+    <!-- Página: Imobilizadores -->
+    <div class="page" id="page-imobilizadores">
+      <div class="main-header">
+        <h1>Imobilizadores</h1>
+        <p>Decode de PINs e transponders para marcas nacionais e importadas.</p>
+      </div>
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24"><rect x="3" y="7" width="12" height="10" rx="4"/><path d="M15 10h6v4h-6"/><circle cx="9" cy="12" r="1.5"/></svg>
+        <h2>Decode Imobilizadores</h2>
+        <p>A ferramenta será disponibilizada em breve. Navegue pelo menu para explorar outras funcionalidades.</p>
+      </div>
+    </div>
+
+    <!-- Página: Editor Hex -->
+    <div class="page" id="page-hex">
+      <div class="main-header">
+        <h1>Editor Hex</h1>
+        <p>Visualize, edite e compare arquivos binários de ECUs e dumps.</p>
+      </div>
+
+      <div class="hex-tabs">
+        <button class="hex-tab active" onclick="switchHexTab('editor', this)">Editor</button>
+        <button class="hex-tab" onclick="switchHexTab('compare', this)">Compare</button>
+      </div>
+
+      <!-- Painel Editor -->
+      <div class="hex-panel active" id="hex-panel-editor">
+        <div class="hex-toolbar">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Carregar arquivo
+            <input type="file" id="hexFile" onchange="loadHexFile(this)">
+          </label>
+          <button class="hex-file-btn" onclick="downloadHex()">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Salvar .bin
+          </button>
+          <span class="hex-meta" id="hexMeta"></span>
+        </div>
+
+        <div class="hex-viewer" id="hexViewerEditor">
+          <div class="hex-empty">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <p>Carregue um arquivo binário para visualizar e editar.<br>Suporta dumps de ECU, airbag e imobilizadores.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Painel Compare -->
+      <div class="hex-panel" id="hex-panel-compare">
+        <div class="hex-toolbar">
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Arquivo A (original)
+            <input type="file" id="hexFileA" onchange="loadCompareFile('a', this)">
+          </label>
+          <label class="hex-file-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Arquivo B (modificado)
+            <input type="file" id="hexFileB" onchange="loadCompareFile('b', this)">
+          </label>
+          <button class="hex-file-btn" onclick="runCompare()">
+            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Comparar
+          </button>
+          <span class="hex-meta" id="hexCompareMeta"></span>
+        </div>
+
+        <div class="hex-compare-grid" id="hexCompareGrid">
+          <div class="hex-viewer" id="hexViewerA">
+            <div class="hex-empty">
+              <svg viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <p>Carregue o arquivo original (A).</p>
+            </div>
+          </div>
+          <div class="hex-viewer" id="hexViewerB">
+            <div class="hex-empty">
+              <svg viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <p>Carregue o arquivo modificado (B).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Página: Banco de Dados -->
+    <div class="page" id="page-banco">
+      <div class="main-header">
+        <h1>Banco de Dados</h1>
+        <p>Consulta de modelos, ECUs compatíveis e arquivos de referência atualizados.</p>
+      </div>
+
+      <div class="banco-dropdown-wrap">
+        <div class="banco-dropdown-label">Montadora</div>
+        <div class="banco-dropdown" id="bancoDropdown" onclick="toggleBancoDropdown()">
+          <span id="bancoSelectedLabel">Selecione uma montadora</span>
+          <svg class="arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="banco-dropdown-menu" id="bancoDropdownMenu">
+          <button class="banco-dropdown-item" data-brand="fiat" onclick="selectBrand('fiat', 'Fiat')">
+            <span>Fiat</span>
+          </button>
+          <button class="banco-dropdown-item" data-brand="vw" onclick="selectBrand('vw', 'VW')">
+            <span>VW</span>
+          </button>
+          <button class="banco-dropdown-item" data-brand="gm" onclick="selectBrand('gm', 'GM')">
+            <span>GM</span>
+          </button>
+          <button class="banco-dropdown-item" data-brand="ford" onclick="selectBrand('ford', 'Ford')">
+            <span>Ford</span>
+          </button>
+          <button class="banco-dropdown-item" data-brand="peugeot" onclick="selectBrand('peugeot', 'Peugeot')">
+            <span>Peugeot</span>
+          </button>
+          <button class="banco-dropdown-item" data-brand="renault" onclick="selectBrand('renault', 'Renault')">
+            <span>Renault</span>
+          </button>
+          <button class="banco-dropdown-item" data-brand="kia" onclick="selectBrand('kia', 'Kia')">
+            <span>Kia</span>
+          </button>
+          <button class="banco-dropdown-item" data-brand="hyundai" onclick="selectBrand('hyundai', 'Hyundai')">
+            <span>Hyundai</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="banco-content" id="bancoContent">
+        <div class="banco-empty" id="bancoEmpty">
+          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M21 5v14c0 1.66-4 3-9 3s-9-1.34-9-3V5"/></svg>
+          <p>Selecione uma montadora para visualizar os dados disponíveis.</p>
+        </div>
+        <div class="banco-grid" id="bancoGrid" style="display:none;">
+          <!-- Conteúdo preenchido via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Página: Conta -->
+    <div class="page" id="page-conta">
+      <div class="main-header">
+        <h1>Conta</h1>
+        <p>Gerencie suas preferências e informações da conta.</p>
+      </div>
+      <div class="grid" style="max-width:480px;">
+        <div class="card" style="cursor:default;">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;">
+            <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-dark));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;">CH</div>
+            <div>
+              <div style="font-size:16px;font-weight:600;color:var(--text-primary);">CHIPRO User</div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-top:2px;">user@chipro.com.br</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);">
+              <span style="font-size:13px;color:var(--text-secondary);">Plano</span>
+              <span style="font-size:13px;font-weight:600;color:var(--accent);">Pro</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);">
+              <span style="font-size:13px;color:var(--text-secondary);">Validade</span>
+              <span style="font-size:13px;font-weight:500;color:var(--text-primary);">20/05/2027</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;">
+              <span style="font-size:13px;color:var(--text-secondary);">Dispositivos</span>
+              <span style="font-size:13px;font-weight:500;color:var(--text-primary);">1 de 3 ativos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Settings Modal -->
+<div class="settings-overlay" id="settingsOverlay" onclick="closeSettingsModal()">
+  <div class="settings-card" onclick="event.stopPropagation()">
+    <div class="settings-header">
+      <h2>Configurações</h2>
+      <button class="settings-close" onclick="closeSettingsModal()" aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <p>Escolha o tema da interface.</p>
+
+    <div class="theme-option active" id="themeDark" onclick="setTheme('dark')">
+      <div class="theme-icon dark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </div>
+      <div class="theme-info">
+        <strong>Dark</strong>
+        <span>Tema escuro padrão da plataforma</span>
+      </div>
+      <div class="theme-check">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+    </div>
+
+    <div class="theme-option" id="themeSystem" onclick="setTheme('system')">
+      <div class="theme-icon system">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <div class="theme-info">
+        <strong>System</strong>
+        <span>Interface clara com tons de cinza</span>
+      </div>
+      <div class="theme-check">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ===== Theme Management ===== */
+  function setTheme(theme) {
+    const body = document.body;
+    const darkOpt = document.getElementById('themeDark');
+    const sysOpt = document.getElementById('themeSystem');
+
+    if (theme === 'system') {
+      body.classList.add('light-mode');
+      darkOpt.classList.remove('active');
+      sysOpt.classList.add('active');
+    } else {
+      body.classList.remove('light-mode');
+      darkOpt.classList.add('active');
+      sysOpt.classList.remove('active');
+    }
+    localStorage.setItem('chipro-theme', theme);
+  }
+
+  function initTheme() {
+    const saved = localStorage.getItem('chipro-theme') || 'dark';
+    setTheme(saved);
+  }
+
+  function openSettingsModal() {
+    document.getElementById('settingsOverlay').classList.add('open');
+    closeAccountDropdown();
+  }
+
+  function closeSettingsModal() {
+    document.getElementById('settingsOverlay').classList.remove('open');
+  }
+
+  /* ===== Navigation & Account ===== */
+  function toggleAccountDropdown() {
+    const dropdown = document.getElementById('accountDropdown');
+    const btn = document.getElementById('accountBtn');
+    const arrow = document.getElementById('accountArrow');
+    const isOpen = dropdown.classList.contains('open');
+    if (isOpen) {
+      dropdown.classList.remove('open');
+      btn.classList.remove('active');
+      arrow.style.transform = 'rotate(0deg)';
+    } else {
+      dropdown.classList.add('open');
+      btn.classList.add('active');
+      arrow.style.transform = 'rotate(180deg)';
+    }
+  }
+
+  function closeAccountDropdown() {
+    document.getElementById('accountDropdown').classList.remove('open');
+    document.getElementById('accountBtn').classList.remove('active');
+    document.getElementById('accountArrow').style.transform = 'rotate(0deg)';
+  }
+
+  // Fecha o dropdown ao clicar fora
+  document.addEventListener('click', e => {
+    const dropdown = document.getElementById('accountDropdown');
+    const btn = document.getElementById('accountBtn');
+    if (dropdown && btn && !dropdown.contains(e.target) && !btn.contains(e.target)) {
+      closeAccountDropdown();
+    }
+  });
+
+  function navigate(page, el) {
+    // Atualizar navegação ativa
+    document.querySelectorAll('.nav li a, .account-btn').forEach(link => link.classList.remove('active'));
+    if (el) el.classList.add('active');
+
+    // Trocar páginas
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + page);
+    if (target) target.classList.add('active');
+
+    closeSidebar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function navigateFromCard(page) {
+    const sidebarLink = document.querySelector('.nav li a[data-page="' + page + '"]');
+    navigate(page, sidebarLink);
+  }
+
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  /* ===== Banco de Dados Dropdown ===== */
+  function toggleBancoDropdown() {
+    const menu = document.getElementById('bancoDropdownMenu');
+    const btn = document.getElementById('bancoDropdown');
+    const isOpen = menu.classList.contains('open');
+    if (isOpen) {
+      menu.classList.remove('open');
+      btn.classList.remove('open');
+    } else {
+      menu.classList.add('open');
+      btn.classList.add('open');
+    }
+  }
+
+  function closeBancoDropdown() {
+    document.getElementById('bancoDropdownMenu').classList.remove('open');
+    document.getElementById('bancoDropdown').classList.remove('open');
+  }
+
+  document.addEventListener('click', e => {
+    const menu = document.getElementById('bancoDropdownMenu');
+    const btn = document.getElementById('bancoDropdown');
+    if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+      closeBancoDropdown();
+    }
+  });
+
+  const BANCO_DATA = {
+    fiat:  [
+      { title: 'Fiat Palio Fire 1.0', ecu: 'IAW 4SF.P5', year: '2015' },
+      { title: 'Fiat Uno Vivace 1.0', ecu: 'IAW 4SF.P5', year: '2016' },
+      { title: 'Fiat Strada 1.4', ecu: 'IAW 4SF.P5', year: '2017' },
+      { title: 'Fiat Toro 2.0 Diesel', ecu: 'EDC16C39', year: '2019' },
+    ],
+    vw:    [
+      { title: 'VW Gol G7 1.0', ecu: 'SIMOS 6.23', year: '2017' },
+      { title: 'VW Polo 1.6 MSI', ecu: 'SIMOS 18.1', year: '2020' },
+      { title: 'VW Jetta 2.0 TSI', ecu: 'SIMOS 8.6', year: '2021' },
+      { title: 'VW Amarok 2.0 TDI', ecu: 'EDC17C54', year: '2020' },
+    ],
+    gm:    [
+      { title: 'GM Onix 1.0', ecu: 'Delphi MT80', year: '2019' },
+      { title: 'GM Tracker 1.0 Turbo', ecu: 'Bosch ME17.9.53', year: '2021' },
+      { title: 'GM S10 2.8 Diesel', ecu: 'Delphi DCM7.1', year: '2022' },
+      { title: 'GM Cruze 1.4 Turbo', ecu: 'Bosch ME17.8.31', year: '2018' },
+    ],
+    ford:  [
+      { title: 'Ford Ka 1.0 SE', ecu: 'Bosch ME17.9.52', year: '2017' },
+      { title: 'Ford Ecosport 1.5', ecu: 'Bosch MED17.8.10', year: '2020' },
+      { title: 'Ford Ranger 3.2 Diesel', ecu: 'Bosch EDC17C70', year: '2021' },
+      { title: 'Ford Mustang 5.0 V8', ecu: 'Bosch MED17.2', year: '2022' },
+    ],
+    peugeot: [
+      { title: 'Peugeot 208 1.2', ecu: 'Continental SID807', year: '2019' },
+      { title: 'Peugeot 308 1.6 THP', ecu: 'Bosch MED17.4.2', year: '2018' },
+      { title: 'Peugeot 2008 1.6', ecu: 'Continental SID807', year: '2020' },
+      { title: 'Peugeot Boxer 2.3 HDI', ecu: 'Bosch EDC16C39', year: '2017' },
+    ],
+    renault: [
+      { title: 'Renault Kwid 1.0', ecu: 'Continental EMS3125', year: '2020' },
+      { title: 'Renault Sandero 1.0', ecu: 'Sagem S3000', year: '2016' },
+      { title: 'Renault Duster 1.6', ecu: 'Sagem S3000', year: '2018' },
+      { title: 'Renault Oroch 2.0', ecu: 'Bosch ME17.9.53', year: '2019' },
+    ],
+    kia:   [
+      { title: 'Kia Picanto 1.0', ecu: 'Bosch ME17.9.11', year: '2021' },
+      { title: 'Kia Cerato 2.0', ecu: 'Bosch MED17.9.8', year: '2020' },
+      { title: 'Kia Sportage 2.0', ecu: 'Bosch MED17.9.8', year: '2019' },
+      { title: 'Kia Sorento 3.5 V6', ecu: 'Bosch MED17.8.10', year: '2022' },
+    ],
+    hyundai: [
+      { title: 'Hyundai HB20 1.0', ecu: 'Bosch ME17.9.53', year: '2021' },
+      { title: 'Hyundai Creta 1.6', ecu: 'Bosch ME17.9.53', year: '2020' },
+      { title: 'Hyundai Tucson 1.6 Turbo', ecu: 'Bosch MED17.9.8', year: '2022' },
+      { title: 'Hyundai HR 2.5 Diesel', ecu: 'Bosch EDC16C39', year: '2018' },
+    ],
+  };
+
+  function selectBrand(brand, label) {
+    document.getElementById('bancoSelectedLabel').textContent = label;
+    closeBancoDropdown();
+
+    // Marca item ativo
+    document.querySelectorAll('.banco-dropdown-item').forEach(item => item.classList.remove('active'));
+    const activeItem = document.querySelector('.banco-dropdown-item[data-brand="' + brand + '"]');
+    if (activeItem) activeItem.classList.add('active');
+
+    // Mostra grid
+    const grid = document.getElementById('bancoGrid');
+    const empty = document.getElementById('bancoEmpty');
+    const content = document.getElementById('bancoContent');
+    content.classList.add('active');
+
+    const data = BANCO_DATA[brand] || [];
+    if (data.length === 0) {
+      grid.style.display = 'none';
+      empty.style.display = 'flex';
+      empty.innerHTML = '<p>Nenhum dado disponível para esta montadora ainda.</p>';
+    } else {
+      grid.style.display = 'grid';
+      empty.style.display = 'none';
+      grid.innerHTML = data.map(d => `
+        <div class="banco-card">
+          <h4>${d.title}</h4>
+          <span>ECU: ${d.ecu} &bull; ${d.year}</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Efeito de brilho no card seguindo o mouse
+  document.addEventListener('mousemove', e => {
+    document.querySelectorAll('.card, .ecu-card').forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mx', x + 'px');
+      card.style.setProperty('--my', y + 'px');
+    });
+  });
+
+  /* ===== Editor Hex ===== */
+  let hexData = null;
+  let hexOriginal = null;
+  let compareDataA = null;
+  let compareDataB = null;
+  let compareDiffs = null;
+
+  function switchHexTab(tab, btn) {
+    document.querySelectorAll('.hex-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.hex-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('hex-panel-' + tab).classList.add('active');
+  }
+
+  function bytesToHex(bytes) {
+    return Array.from(bytes, b => b.toString(16).padStart(2, '0').toUpperCase());
+  }
+
+  function byteToChar(b) {
+    return (b >= 32 && b < 127) ? String.fromCharCode(b) : '.';
+  }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024*1024) return (bytes/1024).toFixed(2) + ' KB';
+    return (bytes/(1024*1024)).toFixed(2) + ' MB';
+  }
+
+  function renderHexTable(bytes, containerId, options={}) {
+    const container = document.getElementById(containerId);
+    if (!bytes || bytes.length === 0) return;
+
+    const diffSet = options.diffs || new Set();
+    const editable = options.editable || false;
+    const otherBytes = options.otherBytes || null;
+
+    let html = `
+      <div class="hex-viewer-header">
+        <span style="width:72px">Offset</span>
+        <span style="flex:1">00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</span>
+        <span style="width:140px">ASCII</span>
+      </div>
+      <div class="hex-viewer-body">
+    `;
+
+    const hexArr = bytesToHex(bytes);
+    for (let row = 0; row < hexArr.length; row += 16) {
+      const offset = row.toString(16).padStart(6, '0').toUpperCase();
+      html += `<div class="hex-row">`;
+      html += `<div class="hex-offset">${offset}</div>`;
+      html += `<div class="hex-bytes">`;
+      for (let col = 0; col < 16; col++) {
+        const idx = row + col;
+        if (idx >= hexArr.length) {
+          html += `<div class="hex-byte" style="opacity:0.2">--</div>`;
+        } else {
+          const isDiff = diffSet.has(idx);
+          const edited = editable && hexOriginal && bytes[idx] !== hexOriginal[idx];
+          const cls = (edited ? 'edited ' : '') + (isDiff ? 'diff' : '');
+          const onclick = editable ? `onclick="editHexByte(${idx}, this)"` : '';
+          html += `<div class="hex-byte ${cls}" ${onclick} data-idx="${idx}">${hexArr[idx]}</div>`;
+        }
+      }
+      html += `</div>`;
+      html += `<div class="hex-ascii">`;
+      for (let col = 0; col < 16; col++) {
+        const idx = row + col;
+        if (idx >= bytes.length) break;
+        const edited = editable && hexOriginal && bytes[idx] !== hexOriginal[idx];
+        const isDiff = diffSet.has(idx);
+        const cls = (edited ? 'edited' : '') + (isDiff ? ' diff' : '');
+        html += `<span class="${cls}">${byteToChar(bytes[idx])}</span>`;
+      }
+      html += `</div>`;
+      html += `</div>`;
+    }
+
+    html += `</div>`;
+    container.innerHTML = html;
+  }
+
+  function setLoading(containerId) {
+    document.getElementById(containerId).innerHTML = `
+      <div class="hex-loading">
+        <div class="hex-spinner"></div>
+        <span style="font-size:13px;color:var(--text-secondary);">Lendo arquivo...</span>
+      </div>`;
+  }
+
+  function loadHexFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+    setLoading('hexViewerEditor');
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      const arr = new Uint8Array(e.target.result);
+      hexData = Array.from(arr);
+      hexOriginal = [...hexData];
+      document.getElementById('hexMeta').textContent = `${file.name}  •  ${formatSize(arr.length)}  •  ${arr.length} bytes`;
+      renderHexTable(hexData, 'hexViewerEditor', { editable: true });
+    };
+    reader.readAsArrayBuffer(file);
+    input.value = '';
+  }
+
+  let currentEditIdx = null;
+
+  function editHexByte(idx, el) {
+    if (!hexData) return;
+    closeHexInput();
+    currentEditIdx = idx;
+
+    const rect = el.getBoundingClientRect();
+    const container = document.getElementById('hexViewerEditor');
+    const containerRect = container.getBoundingClientRect();
+
+    const input = document.createElement('input');
+    input.className = 'hex-input-overlay';
+    input.type = 'text';
+    input.maxLength = 2;
+    input.value = el.textContent;
+    input.style.left = (rect.left - containerRect.left + container.scrollLeft) + 'px';
+    input.style.top = (rect.top - containerRect.top + container.scrollTop) + 'px';
+    input.dataset.idx = idx;
+
+    input.addEventListener('input', () => {
+      let val = input.value.replace(/[^0-9a-fA-F]/g, '').toUpperCase();
+      input.value = val;
+      if (val.length === 2) {
+        saveHexEdit(idx, val, true);
+      }
+    });
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        saveHexEdit(idx, input.value, true);
+      }
+      if (e.key === 'Escape') {
+        closeHexInput();
+      }
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const next = e.shiftKey ? idx - 1 : idx + 1;
+        if (next >= 0 && next < hexData.length) focusHexByte(next);
+      }
+      if (['ArrowRight','ArrowDown'].includes(e.key)) {
+        e.preventDefault();
+        const next = idx + (e.key === 'ArrowRight' ? 1 : 16);
+        if (next < hexData.length) focusHexByte(next);
+      }
+      if (['ArrowLeft','ArrowUp'].includes(e.key)) {
+        e.preventDefault();
+        const prev = idx - (e.key === 'ArrowLeft' ? 1 : 16);
+        if (prev >= 0) focusHexByte(prev);
+      }
+    });
+
+    input.addEventListener('blur', () => {
+      setTimeout(() => {
+        if (document.activeElement !== input) {
+          saveHexEdit(idx, input.value, false);
+        }
+      }, 120);
+    });
+
+    container.appendChild(input);
+    input.focus();
+    input.select();
+  }
+
+  function closeHexInput() {
+    const existing = document.querySelector('.hex-input-overlay');
+    if (existing) existing.remove();
+    currentEditIdx = null;
+  }
+
+  function saveHexEdit(idx, val, advance) {
+    val = val.trim().toUpperCase();
+    if (/^[0-9A-F]{2}$/.test(val)) {
+      const byteVal = parseInt(val, 16);
+      if (hexData[idx] !== byteVal) {
+        hexData[idx] = byteVal;
+        renderHexTable(hexData, 'hexViewerEditor', { editable: true });
+      }
+    }
+    closeHexInput();
+    if (advance) {
+      const next = idx + 1;
+      if (next < hexData.length) setTimeout(() => focusHexByte(next), 20);
+    }
+  }
+
+  function focusHexByte(idx) {
+    const cell = document.querySelector(`.hex-byte[data-idx="${idx}"]`);
+    if (cell) {
+      cell.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      setTimeout(() => editHexByte(idx, cell), 30);
+    }
+  }
+
+  function downloadHex() {
+    if (!hexData) return;
+    const blob = new Blob([new Uint8Array(hexData)], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'editado.bin';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function setTriton32Status(message, type) {
+    const status = document.getElementById('triton32Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processTriton32(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('triton32Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      setTriton32Status('Arquivo acima do limite de 4,5 MB.', 'error');
+      return;
+    }
+
+    setTriton32Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/triton32', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setTriton32Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const hw = response.headers.get('x-chip-hw') || '-';
+      const sw = response.headers.get('x-chip-sw') || '-';
+      const idOffset = response.headers.get('x-chip-id-offset') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+      const patchHw = response.headers.get('x-chip-patch-base-hw') || '-';
+      const patchSw = response.headers.get('x-chip-patch-base-sw') || '-';
+
+      setTriton32Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: Mitsubishi • Modelo: L200 Triton 3.2 • ECU: Denso<br>` +
+        `HW: ${hw} • SW: ${sw} • ID: ${idOffset}<br>` +
+        `Patch base: ${patchHw} / ${patchSw}<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setTriton32Status('Erro de comunicacao com a calculadora. Verifique a conexao e tente novamente.', 'error');
+    }
+  }
+
+  function setRanger32Sid208Status(message, type) {
+    const status = document.getElementById('ranger32Sid208Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processRanger32Sid208(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('ranger32Sid208Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      setRanger32Sid208Status('Arquivo acima do limite de 4,5 MB.', 'error');
+      return;
+    }
+
+    setRanger32Sid208Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/ranger32sid208', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setRanger32Sid208Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const hw = response.headers.get('x-chip-hw') || '-';
+      const cal = response.headers.get('x-chip-cal') || '-';
+      const sw = response.headers.get('x-chip-sw') || '-';
+      const calOffset = response.headers.get('x-chip-cal-offset') || '-';
+      const patchBase = response.headers.get('x-chip-patch-base') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+
+      setRanger32Sid208Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: Ford • Modelo: Ranger 3.2 • ECU: Siemens Continental SID208<br>` +
+        `HW: ${hw} • CAL: ${cal} • SW: ${sw}<br>` +
+        `Offset CAL: ${calOffset} • Patch base: ${patchBase}<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setRanger32Sid208Status('Erro de comunicacao com a calculadora. Verifique a conexao e tente novamente.', 'error');
+    }
+  }
+
+  function setRanger22Sid208Status(message, type) {
+    const status = document.getElementById('ranger22Sid208Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processRanger22Sid208(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('ranger22Sid208Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      setRanger22Sid208Status('Arquivo acima do limite de 4,5 MB.', 'error');
+      return;
+    }
+
+    setRanger22Sid208Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/ranger22sid208', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setRanger22Sid208Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const hw = response.headers.get('x-chip-hw') || '-';
+      const cal = response.headers.get('x-chip-cal') || '-';
+      const sw = response.headers.get('x-chip-sw') || '-';
+      const calOffset = response.headers.get('x-chip-cal-offset') || '-';
+      const patchBase = response.headers.get('x-chip-patch-base') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+
+      setRanger22Sid208Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: Ford • Modelo: Ranger 2.2 • ECU: Siemens Continental SID208<br>` +
+        `HW: ${hw} • CAL: ${cal} • SW: ${sw}<br>` +
+        `Offset CAL: ${calOffset} • Patch base: ${patchBase}<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setRanger22Sid208Status('Erro de comunicacao com a calculadora. Verifique a conexao e tente novamente.', 'error');
+    }
+  }
+
+  function setFrontier25Status(message, type) {
+    const status = document.getElementById('frontier25Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processFrontier25(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('frontier25Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      setFrontier25Status('Arquivo acima do limite de 4,5 MB.', 'error');
+      return;
+    }
+
+    setFrontier25Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/frontier25', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setFrontier25Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const hw = response.headers.get('x-chip-hw') || '-';
+      const sw = response.headers.get('x-chip-sw') || '-';
+      const idOffset = response.headers.get('x-chip-id-offset') || '-';
+      const patchHw = response.headers.get('x-chip-patch-base-hw') || '-';
+      const patchSw = response.headers.get('x-chip-patch-base-sw') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+
+      setFrontier25Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: Nissan • Modelo: Frontier 2.5 YD25 • ECU: Tipo Denso<br>` +
+        `HW: ${hw} • SW: ${sw} • ID: ${idOffset}<br>` +
+        `Patch base: ${patchHw} / ${patchSw}<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setFrontier25Status('Erro de comunicacao com a calculadora. Verifique a conexao e tente novamente.', 'error');
+    }
+  }
+
+  function setHrDcm37Status(message, type) {
+    const status = document.getElementById('hrDcm37Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processHrDcm37(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('hrDcm37Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      setHrDcm37Status('Arquivo acima do limite de 4,5 MB.', 'error');
+      return;
+    }
+
+    setHrDcm37Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/hrdcm37', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setHrDcm37Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const ids = decodeURIComponent(response.headers.get('x-chip-id') || '-');
+      const patchBase = response.headers.get('x-chip-patch-base') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+
+      setHrDcm37Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: Hyundai • Modelo: HR • ECU: Delphi DCM3.7<br>` +
+        `Identificadores: ${ids}<br>` +
+        `Patch base: ${patchBase}<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setHrDcm37Status('Erro de comunicacao com a calculadora. Verifique a conexao e tente novamente.', 'error');
+    }
+  }
+
+  function setAmarokEdc17c54Status(message, type) {
+    const status = document.getElementById('amarokEdc17c54Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processAmarokEdc17c54(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('amarokEdc17c54Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      setAmarokEdc17c54Status('Arquivo acima do limite de 4,5 MB.', 'error');
+      return;
+    }
+
+    setAmarokEdc17c54Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/amarokedc17c54', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setAmarokEdc17c54Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const part = response.headers.get('x-chip-part') || '-';
+      const sw = response.headers.get('x-chip-sw') || '-';
+      const idOffset = response.headers.get('x-chip-id-offset') || '-';
+      const patchBase = response.headers.get('x-chip-patch-base') || '-';
+      const patchPart = response.headers.get('x-chip-patch-part') || '-';
+      const patchSw = response.headers.get('x-chip-patch-sw') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+
+      setAmarokEdc17c54Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: Volkswagen • Modelo: Amarok • ECU: Bosch EDC17C54<br>` +
+        `Part: ${part} • SW: ${sw} • ID: ${idOffset}<br>` +
+        `Patch base: ${patchBase} (${patchPart} / ${patchSw})<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setAmarokEdc17c54Status('Erro de comunicacao com a calculadora. Verifique a conexao e tente novamente.', 'error');
+    }
+  }
+
+  function setDucatoMjd8f3Status(message, type) {
+    const status = document.getElementById('ducatoMjd8f3Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processDucatoMjd8f3(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('ducatoMjd8f3Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      setDucatoMjd8f3Status('Arquivo acima do limite de 4,5 MB.', 'error');
+      return;
+    }
+
+    setDucatoMjd8f3Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/ducatomjd8f3', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setDucatoMjd8f3Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const hw = response.headers.get('x-chip-hw') || '-';
+      const sw = response.headers.get('x-chip-sw') || '-';
+      const idOffset = response.headers.get('x-chip-id-offset') || '-';
+      const patchHw = response.headers.get('x-chip-patch-base-hw') || '-';
+      const patchSw = response.headers.get('x-chip-patch-base-sw') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+
+      setDucatoMjd8f3Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: Fiat • Modelo: Ducato MultiJet 2.3 • ECU: Magneti Marelli MJD8F3<br>` +
+        `HW: ${hw} • SW: ${sw} • ID: ${idOffset}<br>` +
+        `Patch base: ${patchHw} / ${patchSw}<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setDucatoMjd8f3Status('Erro de comunicacao com a calculadora. Verifique a conexao e tente novamente.', 'error');
+    }
+  }
+
+  function setFiatIaw7gfP0420Status(message, type) {
+    const status = document.getElementById('fiatIaw7gfP0420Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processFiatIaw7gfP0420(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('fiatIaw7gfP0420Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      setFiatIaw7gfP0420Status('Arquivo acima do limite de 4,5 MB.', 'error');
+      return;
+    }
+
+    setFiatIaw7gfP0420Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/fiatiaw7gfp0420', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setFiatIaw7gfP0420Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const id = response.headers.get('x-chip-id') || '-';
+      const hw = response.headers.get('x-chip-hw') || '-';
+      const idOffset = response.headers.get('x-chip-id-offset') || '-';
+      const patchBase = response.headers.get('x-chip-patch-base') || '-';
+      const patchHw = response.headers.get('x-chip-patch-hw') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+
+      setFiatIaw7gfP0420Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: Fiat • ECU: Magneti Marelli IAW 7GF • Sistema: P0420<br>` +
+        `ID: ${id} • HW: ${hw} • Offset: ${idOffset}<br>` +
+        `Patch base: ${patchBase} (${patchHw})<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setFiatIaw7gfP0420Status('Erro de comunicacao com a calculadora. Verifique a conexao e tente novamente.', 'error');
+    }
+  }
+
+  function setGmE83Status(message, type) {
+    const status = document.getElementById('gmE83Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processGmE83(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('gmE83Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 4.5 * 1024 * 1024) {
+      setGmE83Status('Arquivo acima do limite de 4,5 MB.', 'error');
+      return;
+    }
+
+    setGmE83Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/gme83', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setGmE83Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const sw = response.headers.get('x-chip-sw') || '-';
+      const part = response.headers.get('x-chip-part') || '-';
+      const patchBase = response.headers.get('x-chip-patch-base') || '-';
+      const patchSw = response.headers.get('x-chip-patch-sw') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+
+      setGmE83Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: GM • ECU: E83 • Veiculo: ${patchBase}<br>` +
+        `SW: ${sw} • Part: ${part}<br>` +
+        `Patch base: ${patchBase} / ${patchSw}<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setGmE83Status('Erro de comunicacao com a calculadora. Verifique a conexao e tente novamente.', 'error');
+    }
+  }
+
+  function setGmE84P0420Status(message, type) {
+    const status = document.getElementById('gmE84P0420Status');
+    if (!status) return;
+    status.className = 'firmware-status' + (type ? ' ' + type : '');
+    status.innerHTML = message;
+  }
+
+  async function processGmE84P0420(input) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const meta = document.getElementById('gmE84P0420Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    if (file.size > 7 * 1024 * 1024) {
+      setGmE84P0420Status('Arquivo acima do limite de 7 MB.', 'error');
+      return;
+    }
+
+    setGmE84P0420Status('Processando firmware e validando area reparavel...', '');
+
+    try {
+      const response = await fetch('/.netlify/functions/gme84p0420', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-file-name': encodeURIComponent(file.name)
+        },
+        body: file
+      });
+
+      if (!response.ok) {
+        let errorText = 'Nao foi possivel processar este firmware.';
+        try {
+          const payload = await response.json();
+          errorText = payload.error || errorText;
+          if (payload.details) errorText += `<br>${payload.details}`;
+        } catch (_) {}
+        setGmE84P0420Status(errorText, 'error');
+        return;
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const filenameMatch = disposition.match(/filename="([^"]+)"/);
+      const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = downloadName;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const sw = response.headers.get('x-chip-sw') || '-';
+      const ids = decodeURIComponent(response.headers.get('x-chip-id') || '-');
+      const patchBase = response.headers.get('x-chip-patch-base') || '-';
+      const runs = response.headers.get('x-chip-total-runs') || '-';
+      const bytesWritten = response.headers.get('x-chip-bytes-written') || '-';
+      const bytesChanged = response.headers.get('x-chip-bytes-changed') || '-';
+
+      setGmE84P0420Status(
+        `<strong>Firmware reparado com sucesso.</strong><br>` +
+        `Marca: GM • ECU: E84 • Sistema: P0420<br>` +
+        `SW: ${sw}<br>` +
+        `Identificadores: ${ids}<br>` +
+        `Patch base: ${patchBase}<br>` +
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        'success'
+      );
+    } catch (error) {
+      setGmE84P0420Status('Erro de comunicacao com a calculadora. Se estiver na Netlify, confirme suporte para upload de 6 MB.', 'error');
+    }
+  }
+
+  function loadCompareFile(side, input) {
+    const file = input.files[0];
+    if (!file) return;
+    setLoading(side === 'a' ? 'hexViewerA' : 'hexViewerB');
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      const arr = new Uint8Array(e.target.result);
+      if (side === 'a') {
+        compareDataA = Array.from(arr);
+        renderHexTable(compareDataA, 'hexViewerA');
+      } else {
+        compareDataB = Array.from(arr);
+        renderHexTable(compareDataB, 'hexViewerB');
+      }
+      updateCompareMeta();
+    };
+    reader.readAsArrayBuffer(file);
+    input.value = '';
+  }
+
+  function updateCompareMeta() {
+    const parts = [];
+    if (compareDataA) parts.push(`A: ${formatSize(compareDataA.length)}`);
+    if (compareDataB) parts.push(`B: ${formatSize(compareDataB.length)}`);
+    if (compareDiffs) parts.push(`${compareDiffs.size} diferenças`);
+    document.getElementById('hexCompareMeta').textContent = parts.join('  •  ');
+  }
+
+  function runCompare() {
+    if (!compareDataA || !compareDataB) {
+      alert('Carregue os dois arquivos primeiro.');
+      return;
+    }
+
+    compareDiffs = new Set();
+    const len = Math.max(compareDataA.length, compareDataB.length);
+    for (let i = 0; i < len; i++) {
+      if (compareDataA[i] !== compareDataB[i]) compareDiffs.add(i);
+    }
+
+    renderHexTable(compareDataA, 'hexViewerA', { diffs: compareDiffs });
+    renderHexTable(compareDataB, 'hexViewerB', { diffs: compareDiffs });
+    updateCompareMeta();
+  }
+
+  // Inicializa tema salvo
+  initTheme();
+</script>
+
+</body>
+</html>

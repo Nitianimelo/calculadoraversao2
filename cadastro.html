@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHIPRO — Criar Conta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: #050505;
+      --bg-card: #0f0f0f;
+      --bg-input: #121212;
+      --bg-hover: #161616;
+      --border: #1a1a1a;
+      --border-focus: rgba(41,182,246,0.4);
+      --text-primary: #f0f0f0;
+      --text-secondary: #8a8a8a;
+      --text-muted: #555555;
+      --accent: #29B6F6;
+      --accent-dark: #4A90E2;
+      --accent-glow: rgba(41,182,246,0.15);
+      --success: #2ed573;
+      --error: #ff4757;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(41,182,246,0.08) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 44px 40px;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 36px;
+      gap: 14px;
+    }
+
+    .brand img {
+      height: 48px;
+      width: auto;
+      filter: drop-shadow(0 0 16px rgba(41,182,246,0.3));
+    }
+
+    .brand h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .brand p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+
+    input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px 12px 42px;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .input-wrap:focus-within svg {
+      stroke: var(--accent);
+    }
+
+    input.input-error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(255,71,87,0.12);
+    }
+
+    input.input-success {
+      border-color: var(--success);
+      box-shadow: 0 0 0 3px rgba(46,213,115,0.12);
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: var(--error);
+      margin-top: 6px;
+      display: none;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(41,182,246,0.25);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .footer {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .strength-bar {
+      display: flex;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .strength-segment {
+      height: 3px;
+      flex: 1;
+      border-radius: 2px;
+      background: var(--border);
+      transition: var(--transition);
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <div class="card">
+    <div class="brand">
+      <img src="uploads/CHIPRO-2.png" alt="CHIPRO">
+      <h2>Criar conta</h2>
+      <p>Preencha os dados para começar a usar a plataforma</p>
+    </div>
+
+    <form id="cadastroForm" onsubmit="handleCadastro(event)">
+      <div class="form-group">
+        <label>Nome completo</label>
+        <div class="input-wrap">
+          <input type="text" id="nome" placeholder="João da Silva" required oninput="validarNome()">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="error-msg" id="error-nome">Informe seu nome completo.</div>
+      </div>
+
+      <div class="form-group">
+        <label>E-mail</label>
+        <div class="input-wrap">
+          <input type="email" id="email" placeholder="seu@email.com" required oninput="validarEmail()">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="error-msg" id="error-email">Informe um e-mail válido.</div>
+      </div>
+
+      <div class="form-group">
+        <label>WhatsApp</label>
+        <div class="input-wrap">
+          <input type="tel" id="whatsapp" placeholder="(11) 98765-4321" required maxlength="16" oninput="mascaraWhatsApp(); validarWhatsApp()">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="error-msg" id="error-whatsapp">Informe um número válido com DDD.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Senha</label>
+        <div class="input-wrap">
+          <input type="password" id="senha" placeholder="••••••••" required oninput="validarSenha()">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="strength-bar" id="strengthBar">
+          <div class="strength-segment" id="s1"></div>
+          <div class="strength-segment" id="s2"></div>
+          <div class="strength-segment" id="s3"></div>
+          <div class="strength-segment" id="s4"></div>
+        </div>
+        <div class="hint" id="senhaHint">Mínimo 6 caracteres</div>
+        <div class="error-msg" id="error-senha">A senha deve ter pelo menos 6 caracteres.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Confirmar senha</label>
+        <div class="input-wrap">
+          <input type="password" id="senha2" placeholder="••••••••" required oninput="validarSenha2()">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="error-msg" id="error-senha2">As senhas não coincidem.</div>
+      </div>
+
+      <button type="submit" class="btn" id="btnSubmit">Criar conta</button>
+    </form>
+
+    <div class="footer">
+      Já tem uma conta? <a href="login.html">Entrar</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function mascaraWhatsApp() {
+    let v = document.getElementById('whatsapp').value.replace(/\D/g, '');
+    if (v.length > 11) v = v.slice(0, 11);
+    if (v.length > 7) {
+      v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+    } else if (v.length > 2) {
+      v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+    }
+    document.getElementById('whatsapp').value = v;
+  }
+
+  function validarNome() {
+    const el = document.getElementById('nome');
+    const err = document.getElementById('error-nome');
+    const ok = el.value.trim().length >= 3;
+    el.classList.toggle('input-error', !ok && el.value.length > 0);
+    el.classList.toggle('input-success', ok);
+    err.style.display = (!ok && el.value.length > 0) ? 'block' : 'none';
+    return ok;
+  }
+
+  function validarEmail() {
+    const el = document.getElementById('email');
+    const err = document.getElementById('error-email');
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
+    el.classList.toggle('input-error', !ok && el.value.length > 0);
+    el.classList.toggle('input-success', ok);
+    err.style.display = (!ok && el.value.length > 0) ? 'block' : 'none';
+    return ok;
+  }
+
+  function validarWhatsApp() {
+    const el = document.getElementById('whatsapp');
+    const err = document.getElementById('error-whatsapp');
+    const digits = el.value.replace(/\D/g, '');
+    const ok = digits.length === 11;
+    el.classList.toggle('input-error', !ok && digits.length > 0);
+    el.classList.toggle('input-success', ok);
+    err.style.display = (!ok && digits.length > 0) ? 'block' : 'none';
+    return ok;
+  }
+
+  function validarSenha() {
+    const el = document.getElementById('senha');
+    const err = document.getElementById('error-senha');
+    const hint = document.getElementById('senhaHint');
+    const v = el.value;
+    let score = 0;
+    if (v.length >= 6) score++;
+    if (v.length >= 8) score++;
+    if (/[A-Z]/.test(v)) score++;
+    if (/[0-9]/.test(v) || /[^A-Za-z0-9]/.test(v)) score++;
+
+    const cores = ['var(--border)', '#ff4757', '#ffa502', '#2ed573', '#2ed573'];
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById('s'+i).style.background = i <= score ? cores[score] : 'var(--border)';
+    }
+
+    const ok = v.length >= 6;
+    el.classList.toggle('input-error', !ok && v.length > 0);
+    el.classList.toggle('input-success', ok);
+    err.style.display = (!ok && v.length > 0) ? 'block' : 'none';
+    hint.style.display = ok ? 'none' : 'block';
+    validarSenha2();
+    return ok;
+  }
+
+  function validarSenha2() {
+    const el = document.getElementById('senha2');
+    const err = document.getElementById('error-senha2');
+    const senha = document.getElementById('senha').value;
+    const ok = el.value === senha && el.value.length >= 6;
+    el.classList.toggle('input-error', !ok && el.value.length > 0);
+    el.classList.toggle('input-success', ok);
+    err.style.display = (!ok && el.value.length > 0) ? 'block' : 'none';
+    return ok;
+  }
+
+  function handleCadastro(e) {
+    e.preventDefault();
+    const checks = [validarNome(), validarEmail(), validarWhatsApp(), validarSenha(), validarSenha2()];
+    if (checks.every(Boolean)) {
+      window.location.href = 'index.html';
+    }
+  }
+</script>
+
+</body>
+</html>

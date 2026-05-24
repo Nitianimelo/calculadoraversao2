@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHIPRO — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: #06070a;
+      --bg-card: rgba(18, 28, 48, 0.45);
+      --bg-input: rgba(255,255,255,0.02);
+      --bg-hover: #121a2b;
+      --border: rgba(41,182,246,0.08);
+      --border-focus: rgba(41,182,246,0.5);
+      --text-primary: #eef4fa;
+      --text-secondary: #93a3b8;
+      --text-muted: #4a5d75;
+      --accent: #29B6F6;
+      --accent-dark: #4A90E2;
+      --accent-glow: rgba(41,182,246,0.20);
+      --error: #ff4757;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* Canvas de fundo */
+    #bgCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Glow sutil central */
+    .page::before {
+      content: '';
+      position: absolute;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(41,182,246,0.04) 0%, transparent 60%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      background: linear-gradient(160deg, rgba(18, 28, 48, 0.65) 0%, rgba(10, 16, 30, 0.55) 100%);
+      border: 1px solid rgba(41,182,246,0.12);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(32px) saturate(1.4);
+      -webkit-backdrop-filter: blur(32px) saturate(1.4);
+      box-shadow:
+        0 24px 80px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 0 60px rgba(41,182,246,0.06);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(160deg, rgba(41,182,246,0.18), rgba(41,182,246,0.02) 50%, transparent);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 36px;
+      gap: 14px;
+    }
+
+    .brand img {
+      height: 48px;
+      width: auto;
+      filter: drop-shadow(0 0 16px rgba(41,182,246,0.3));
+    }
+
+    .brand h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .brand p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-muted);
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+
+    input {
+      width: 100%;
+      background: rgba(0,0,0,0.15);
+      border: 1px solid rgba(41,182,246,0.10);
+      border-radius: var(--radius-sm);
+      padding: 13px 14px 13px 42px;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    input:focus {
+      border-color: rgba(41,182,246,0.45);
+      box-shadow: 0 0 0 3px rgba(41,182,246,0.08), 0 0 20px rgba(41,182,246,0.06);
+      background: rgba(0,0,0,0.22);
+    }
+
+    input:focus + svg,
+    .input-wrap:focus-within svg {
+      stroke: var(--accent);
+    }
+
+    input.input-error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(255,71,87,0.12);
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: var(--error);
+      margin-top: 6px;
+      display: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.3px;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(41,182,246,0.30), 0 0 0 1px rgba(41,182,246,0.15);
+    }
+
+    .btn:hover::before {
+      opacity: 1;
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .footer {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="page">
+  <div class="card">
+    <div class="brand">
+      <img src="uploads/CHIPRO-2.png" alt="CHIPRO">
+      <h2>Bem-vindo de volta</h2>
+      <p>Acesse sua conta para continuar</p>
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label>E-mail</label>
+        <div class="input-wrap">
+          <input type="text" id="email" placeholder="admin" required>
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="error-msg" id="error-email">Informe um e-mail válido.</div>
+      </div>
+
+      <div class="form-group">
+        <label>Senha</label>
+        <div class="input-wrap">
+          <input type="password" id="senha" placeholder="••••••••" required>
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="error-msg" id="error-senha">Senha incorreta.</div>
+      </div>
+
+      <button type="submit" class="btn">Entrar</button>
+    </form>
+
+    <div class="footer">
+      Ainda não tem conta? <a href="cadastro.html">Criar conta</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ========== Circuit Board Background ========== */
+  (function() {
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const NODE_COLOR = 'rgba(41,182,246,0.55)';
+    const TRACE_COLOR = 'rgba(41,182,246,0.10)';
+    const TRACE_GLOW = 'rgba(41,182,246,0.04)';
+    const CHIP_BG = 'rgba(20, 35, 55, 0.6)';
+    const CHIP_BORDER = 'rgba(41,182,246,0.20)';
+    const CHIP_PINS = 'rgba(41,182,246,0.35)';
+
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+    function randInt(min, max) { return Math.floor(rand(min, max)); }
+
+    // === Gerar malha de circuito ===
+    const GRID_STEP = 70;
+    const traces = [];
+    const nodes = [];
+    const chips = [];
+    const pulses = [];
+
+    function generateCircuit() {
+      traces.length = 0;
+      nodes.length = 0;
+      chips.length = 0;
+      pulses.length = 0;
+
+      const cols = Math.ceil(W / GRID_STEP) + 2;
+      const rows = Math.ceil(H / GRID_STEP) + 2;
+      const offsetX = -GRID_STEP;
+      const offsetY = -GRID_STEP;
+
+      // Criar nós nos pontos de grade com aleatoriedade
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (Math.random() > 0.45) continue;
+          const x = offsetX + c * GRID_STEP + rand(-18, 18);
+          const y = offsetY + r * GRID_STEP + rand(-18, 18);
+          nodes.push({ x, y, r: rand(2, 3.5), pulseSpeed: rand(0.4, 1.2), pulseOffset: rand(0, Math.PI*2), active: Math.random() > 0.6 });
+        }
+      }
+
+      // Conectar nós próximos com trilhos (PCB trace style: retos com esquinas 90°)
+      const CONNECT_DIST = GRID_STEP * 1.6;
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[j].x - nodes[i].x;
+          const dy = nodes[j].y - nodes[i].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < CONNECT_DIST && Math.random() > 0.35) {
+            // Trace estilo PCB: primeiro horizontal, depois vertical (ou vice-versa)
+            const midX = nodes[i].x + dx * 0.5 + rand(-10, 10);
+            const midY = nodes[i].y + dy * 0.5 + rand(-10, 10);
+            // 50% chance de L horizontal-vertical ou vertical-horizontal
+            const corner = Math.random() > 0.5
+              ? { x: nodes[j].x, y: nodes[i].y }
+              : { x: nodes[i].x, y: nodes[j].y };
+            traces.push({
+              from: nodes[i],
+              to: nodes[j],
+              corner,
+              width: rand(0.6, 1.4),
+              alpha: rand(0.06, 0.18),
+              glow: rand(0.02, 0.06),
+            });
+            if (Math.random() > 0.8) {
+              pulses.push({
+                traceIndex: traces.length - 1,
+                progress: Math.random(),
+                speed: rand(0.002, 0.007),
+                size: rand(1.5, 3),
+                alpha: rand(0.3, 0.7),
+              });
+            }
+          }
+        }
+      }
+
+      // Adicionar alguns chips minimalistas (retângulos com pinos)
+      const chipCount = Math.floor(rand(3, 7));
+      for (let k = 0; k < chipCount; k++) {
+        const w = randInt(50, 110);
+        const h = randInt(30, 70);
+        const x = rand(w + 40, W - w - 40);
+        const y = rand(h + 40, H - h - 40);
+        const pinCount = randInt(4, 10);
+        chips.push({ x, y, w, h, pins: pinCount });
+      }
+    }
+
+    generateCircuit();
+
+    let time = 0;
+    function animate() {
+      time += 0.012;
+
+      // Fundo escuro azulado
+      ctx.fillStyle = '#06070a';
+      ctx.fillRect(0, 0, W, H);
+
+      // Glow difuso central sutil
+      const glow = ctx.createRadialGradient(W*0.5, H*0.5, 0, W*0.5, H*0.5, Math.min(W,H)*0.5);
+      glow.addColorStop(0, 'rgba(41,182,246,0.025)');
+      glow.addColorStop(1, 'rgba(41,182,246,0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, W, H);
+
+      // === Desenhar trilhos ===
+      for (const t of traces) {
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        // Glow do trilho
+        ctx.lineWidth = t.width + 4;
+        ctx.strokeStyle = TRACE_GLOW;
+        ctx.beginPath();
+        ctx.moveTo(t.from.x, t.from.y);
+        ctx.lineTo(t.corner.x, t.corner.y);
+        ctx.lineTo(t.to.x, t.to.y);
+        ctx.stroke();
+
+        // Trilho principal
+        ctx.lineWidth = t.width;
+        ctx.strokeStyle = `rgba(41,182,246,${t.alpha})`;
+        ctx.beginPath();
+        ctx.moveTo(t.from.x, t.from.y);
+        ctx.lineTo(t.corner.x, t.corner.y);
+        ctx.lineTo(t.to.x, t.to.y);
+        ctx.stroke();
+      }
+
+      // === Desenhar chips ===
+      for (const chip of chips) {
+        // Corpo do chip
+        ctx.fillStyle = CHIP_BG;
+        ctx.strokeStyle = CHIP_BORDER;
+        ctx.lineWidth = 1;
+        const r = 4;
+        ctx.beginPath();
+        ctx.moveTo(chip.x + r, chip.y);
+        ctx.lineTo(chip.x + chip.w - r, chip.y);
+        ctx.quadraticCurveTo(chip.x + chip.w, chip.y, chip.x + chip.w, chip.y + r);
+        ctx.lineTo(chip.x + chip.w, chip.y + chip.h - r);
+        ctx.quadraticCurveTo(chip.x + chip.w, chip.y + chip.h, chip.x + chip.w - r, chip.y + chip.h);
+        ctx.lineTo(chip.x + r, chip.y + chip.h);
+        ctx.quadraticCurveTo(chip.x, chip.y + chip.h, chip.x, chip.y + chip.h - r);
+        ctx.lineTo(chip.x, chip.y + r);
+        ctx.quadraticCurveTo(chip.x, chip.y, chip.x + r, chip.y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Pinos (linhas saindo dos lados)
+        const pinLen = 8;
+        const pinSpacing = Math.min(12, chip.h / (chip.pins + 1));
+        ctx.strokeStyle = CHIP_PINS;
+        ctx.lineWidth = 1;
+        for (let p = 0; p < chip.pins; p++) {
+          const py = chip.y + pinSpacing * (p + 1);
+          // Lado esquerdo
+          ctx.beginPath();
+          ctx.moveTo(chip.x - pinLen, py);
+          ctx.lineTo(chip.x, py);
+          ctx.stroke();
+          // Lado direito
+          ctx.beginPath();
+          ctx.moveTo(chip.x + chip.w, py);
+          ctx.lineTo(chip.x + chip.w + pinLen, py);
+          ctx.stroke();
+        }
+      }
+
+      // === Desenhar nós ===
+      for (const n of nodes) {
+        const pulse = 0.65 + 0.35 * Math.sin(time * n.pulseSpeed + n.pulseOffset);
+        const baseR = n.r * pulse;
+
+        // Glow do nó
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, baseR + 5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(41,182,246,${n.active ? 0.08 : 0.04})`;
+        ctx.fill();
+
+        // Nó central
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, baseR, 0, Math.PI * 2);
+        ctx.fillStyle = n.active ? NODE_COLOR : 'rgba(41,182,246,0.25)';
+        ctx.fill();
+      }
+
+      // === Pulses de dados nos trilhos ===
+      for (let pi = pulses.length - 1; pi >= 0; pi--) {
+        const p = pulses[pi];
+        const t = traces[p.traceIndex];
+        if (!t) { pulses.splice(pi, 1); continue; }
+
+        p.progress += p.speed;
+        if (p.progress >= 1) p.progress = 0;
+
+        // Calcular posição ao longo do L
+        let x, y;
+        const dx1 = t.corner.x - t.from.x;
+        const dy1 = t.corner.y - t.from.y;
+        const len1 = Math.sqrt(dx1*dx1 + dy1*dy1);
+        const dx2 = t.to.x - t.corner.x;
+        const dy2 = t.to.y - t.corner.y;
+        const len2 = Math.sqrt(dx2*dx2 + dy2*dy2);
+        const totalLen = len1 + len2;
+        const seg1Ratio = len1 / totalLen;
+
+        if (p.progress <= seg1Ratio) {
+          const t2 = p.progress / seg1Ratio;
+          x = t.from.x + dx1 * t2;
+          y = t.from.y + dy1 * t2;
+        } else {
+          const t2 = (p.progress - seg1Ratio) / (1 - seg1Ratio);
+          x = t.corner.x + dx2 * t2;
+          y = t.corner.y + dy2 * t2;
+        }
+
+        // Desenhar pulse
+        ctx.beginPath();
+        ctx.arc(x, y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(41,182,246,${p.alpha})`;
+        ctx.fill();
+
+        // Glow do pulse
+        ctx.beginPath();
+        ctx.arc(x, y, p.size + 5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(41,182,246,${p.alpha * 0.3})`;
+        ctx.fill();
+      }
+
+      // Adicionar pulses ocasionalmente
+      if (Math.random() > 0.985 && traces.length > 0) {
+        const idx = randInt(0, traces.length);
+        pulses.push({
+          traceIndex: idx,
+          progress: 0,
+          speed: rand(0.003, 0.009),
+          size: rand(1.5, 3),
+          alpha: rand(0.3, 0.8),
+        });
+      }
+
+      // === Vignette nas bordas ===
+      const vig = ctx.createRadialGradient(W/2, H/2, Math.min(W,H)*0.35, W/2, H/2, Math.min(W,H)*0.85);
+      vig.addColorStop(0, 'rgba(0,0,0,0)');
+      vig.addColorStop(1, 'rgba(0,0,0,0.55)');
+      ctx.fillStyle = vig;
+      ctx.fillRect(0, 0, W, H);
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+    window.addEventListener('resize', () => { generateCircuit(); });
+  })();
+
+  /* ========== Login Logic ========== */
+  function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const senha = document.getElementById('senha').value;
+
+    document.querySelectorAll('input').forEach(i => i.classList.remove('input-error'));
+    document.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
+
+    if (email === 'admin' && senha === 'admin') {
+      window.location.href = 'index.html';
+      return;
+    }
+
+    let ok = true;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email !== 'admin') {
+      document.getElementById('email').classList.add('input-error');
+      document.getElementById('error-email').style.display = 'block';
+      ok = false;
+    }
+    if (senha.length < 6 && senha !== 'admin') {
+      document.getElementById('senha').classList.add('input-error');
+      document.getElementById('error-senha').style.display = 'block';
+      ok = false;
+    }
+    if (ok) {
+      window.location.href = 'index.html';
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2115 @@
+[
+  {
+    "system": "VW Amarok EDC17C54",
+    "patch_id": "03L906012AS_6070",
+    "part": "03L906012AS",
+    "sw": "6070",
+    "file_size": 4194304,
+    "total_bytes_changed": 347,
+    "n_runs": 90,
+    "zones": [
+      {
+        "start": "0x0028537E",
+        "end": "0x00285742",
+        "length": 965
+      },
+      {
+        "start": "0x002942BC",
+        "end": "0x00294A43",
+        "length": 1928
+      },
+      {
+        "start": "0x002D64A0",
+        "end": "0x002D6614",
+        "length": 373
+      },
+      {
+        "start": "0x002F7FB3",
+        "end": "0x002F7FB4",
+        "length": 2
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x0028537E",
+        "end": "0x00285385",
+        "length": 8
+      },
+      {
+        "start": "0x002853AA",
+        "end": "0x002853EA",
+        "length": 65
+      },
+      {
+        "start": "0x0028542A",
+        "end": "0x0028542B",
+        "length": 2
+      },
+      {
+        "start": "0x00285453",
+        "end": "0x00285524",
+        "length": 210
+      },
+      {
+        "start": "0x00285593",
+        "end": "0x00285597",
+        "length": 5
+      },
+      {
+        "start": "0x002855FB",
+        "end": "0x002855FB",
+        "length": 1
+      },
+      {
+        "start": "0x00285684",
+        "end": "0x00285684",
+        "length": 1
+      },
+      {
+        "start": "0x002856B0",
+        "end": "0x00285742",
+        "length": 147
+      },
+      {
+        "start": "0x002942BC",
+        "end": "0x002942CB",
+        "length": 16
+      },
+      {
+        "start": "0x00294318",
+        "end": "0x0029431B",
+        "length": 4
+      },
+      {
+        "start": "0x00294360",
+        "end": "0x00294375",
+        "length": 22
+      },
+      {
+        "start": "0x00294414",
+        "end": "0x00294415",
+        "length": 2
+      },
+      {
+        "start": "0x00294466",
+        "end": "0x00294475",
+        "length": 16
+      },
+      {
+        "start": "0x00294498",
+        "end": "0x0029449B",
+        "length": 4
+      },
+      {
+        "start": "0x002944FA",
+        "end": "0x002944FD",
+        "length": 4
+      },
+      {
+        "start": "0x00294558",
+        "end": "0x00294595",
+        "length": 62
+      },
+      {
+        "start": "0x002945C0",
+        "end": "0x002945C1",
+        "length": 2
+      },
+      {
+        "start": "0x002945E2",
+        "end": "0x00294609",
+        "length": 40
+      },
+      {
+        "start": "0x002946E6",
+        "end": "0x002946E7",
+        "length": 2
+      },
+      {
+        "start": "0x002947B6",
+        "end": "0x002947B7",
+        "length": 2
+      },
+      {
+        "start": "0x002947F6",
+        "end": "0x002947F7",
+        "length": 2
+      },
+      {
+        "start": "0x00294948",
+        "end": "0x00294967",
+        "length": 32
+      },
+      {
+        "start": "0x00294994",
+        "end": "0x002949E7",
+        "length": 84
+      },
+      {
+        "start": "0x00294A28",
+        "end": "0x00294A43",
+        "length": 28
+      },
+      {
+        "start": "0x002D64A0",
+        "end": "0x002D64BB",
+        "length": 28
+      },
+      {
+        "start": "0x002D64E4",
+        "end": "0x002D6501",
+        "length": 30
+      },
+      {
+        "start": "0x002D6528",
+        "end": "0x002D6546",
+        "length": 31
+      },
+      {
+        "start": "0x002D65F6",
+        "end": "0x002D6614",
+        "length": 31
+      },
+      {
+        "start": "0x002F7FB3",
+        "end": "0x002F7FB4",
+        "length": 2
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x0028537E",
+        "length": 4,
+        "orig_sample": "04040309",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285385",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002853AA",
+        "length": 1,
+        "orig_sample": "0a",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002853AC",
+        "length": 2,
+        "orig_sample": "0909",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002853B0",
+        "length": 2,
+        "orig_sample": "0409",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002853CE",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002853D0",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002853D2",
+        "length": 9,
+        "orig_sample": "0b0101040401010e0a",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x002853E2",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002853EA",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028542A",
+        "length": 2,
+        "orig_sample": "0a0d",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285453",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285455",
+        "length": 2,
+        "orig_sample": "0104",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285458",
+        "length": 2,
+        "orig_sample": "0304",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x0028546C",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285480",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285482",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028549D",
+        "length": 2,
+        "orig_sample": "0404",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002854BD",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854CC",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854DB",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854DD",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002854E0",
+        "length": 5,
+        "orig_sample": "0303030303",
+        "rep_sample": "0000000000"
+      },
+      {
+        "offset": "0x002854E7",
+        "length": 4,
+        "orig_sample": "03030303",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285500",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285503",
+        "length": 2,
+        "orig_sample": "0903",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285511",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285514",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285516",
+        "length": 1,
+        "orig_sample": "04",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285521",
+        "length": 4,
+        "orig_sample": "04040404",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285593",
+        "length": 5,
+        "orig_sample": "0909010101",
+        "rep_sample": "0000000000"
+      },
+      {
+        "offset": "0x002855FB",
+        "length": 1,
+        "orig_sample": "04",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285684",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002856B0",
+        "length": 6,
+        "orig_sample": "010101010101",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x002856C4",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002856C6",
+        "length": 4,
+        "orig_sample": "0a0a0101",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x002856D3",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002856EA",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002856EF",
+        "length": 2,
+        "orig_sample": "0904",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002856FC",
+        "length": 6,
+        "orig_sample": "020202020202",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x00285708",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285713",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285732",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285734",
+        "length": 2,
+        "orig_sample": "090e",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285739",
+        "length": 4,
+        "orig_sample": "09090909",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285740",
+        "length": 3,
+        "orig_sample": "030404",
+        "rep_sample": "000000"
+      },
+      {
+        "offset": "0x002942BC",
+        "length": 8,
+        "orig_sample": "fd07fd07fd07fd07",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x002942CA",
+        "length": 2,
+        "orig_sample": "0508",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294318",
+        "length": 4,
+        "orig_sample": "09000900",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294360",
+        "length": 4,
+        "orig_sample": "fd07f907",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294372",
+        "length": 4,
+        "orig_sample": "0100f10d",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294414",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294466",
+        "length": 2,
+        "orig_sample": "ed03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0029446A",
+        "length": 4,
+        "orig_sample": "ed03fd03",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294470",
+        "length": 6,
+        "orig_sample": "cd03fd034d02",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x00294498",
+        "length": 4,
+        "orig_sample": "01000100",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002944FA",
+        "length": 4,
+        "orig_sample": "fd07fd07",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294558",
+        "length": 2,
+        "orig_sample": "2800",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294576",
+        "length": 2,
+        "orig_sample": "ed03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0029457A",
+        "length": 2,
+        "orig_sample": "d401",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294580",
+        "length": 10,
+        "orig_sample": "d401d401d401d401d401",
+        "rep_sample": "ffffffffffffffffffff"
+      },
+      {
+        "offset": "0x00294592",
+        "length": 4,
+        "orig_sample": "d401d401",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002945C0",
+        "length": 2,
+        "orig_sample": "4902",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002945E2",
+        "length": 4,
+        "orig_sample": "00000000",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002945EC",
+        "length": 2,
+        "orig_sample": "2000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294602",
+        "length": 8,
+        "orig_sample": "0800280028002800",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x002946E6",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002947B6",
+        "length": 2,
+        "orig_sample": "fc03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002947F6",
+        "length": 2,
+        "orig_sample": "f907",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294948",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294950",
+        "length": 4,
+        "orig_sample": "bd03bd03",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294956",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294966",
+        "length": 2,
+        "orig_sample": "fd03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294994",
+        "length": 2,
+        "orig_sample": "d401",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0029499E",
+        "length": 4,
+        "orig_sample": "dd03dd03",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002949B8",
+        "length": 6,
+        "orig_sample": "210021002100",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x002949D0",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002949E6",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294A28",
+        "length": 4,
+        "orig_sample": "f9070100",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294A32",
+        "length": 2,
+        "orig_sample": "2000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294A36",
+        "length": 4,
+        "orig_sample": "20002000",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294A40",
+        "length": 4,
+        "orig_sample": "0100d501",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002D64A0",
+        "length": 28,
+        "orig_sample": "401f401f401f401f401f401f401f401f401f401f401f401f7017a00f",
+        "rep_sample": "00000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D64E4",
+        "length": 30,
+        "orig_sample": "c409b80bac0d94119411941194119411a00fac0dac0dac0db80bc409c409",
+        "rep_sample": "000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D6528",
+        "length": 14,
+        "orig_sample": "ac0dac0d8c0a540ba00f1815e015",
+        "rep_sample": "0000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D6537",
+        "length": 1,
+        "orig_sample": "19",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002D6539",
+        "length": 14,
+        "orig_sample": "19641938187c15a00fac0ddc05c8",
+        "rep_sample": "0000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D65F6",
+        "length": 18,
+        "orig_sample": "480d480d280af00a3c0fb4147c159c189c18",
+        "rep_sample": "000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D6609",
+        "length": 12,
+        "orig_sample": "19d41718153c0f480d780564",
+        "rep_sample": "000000000000000000000000"
+      },
+      {
+        "offset": "0x002F7FB3",
+        "length": 2,
+        "orig_sample": "0101",
+        "rep_sample": "0000"
+      }
+    ]
+  },
+  {
+    "system": "VW Amarok EDC17C54",
+    "patch_id": "03L906012CC_4927",
+    "part": "03L906012CC",
+    "sw": "4927",
+    "file_size": 4194304,
+    "total_bytes_changed": 357,
+    "n_runs": 84,
+    "zones": [
+      {
+        "start": "0x00285330",
+        "end": "0x002856E5",
+        "length": 950
+      },
+      {
+        "start": "0x00294310",
+        "end": "0x00294A7B",
+        "length": 1900
+      },
+      {
+        "start": "0x002D2440",
+        "end": "0x002D25B3",
+        "length": 372
+      },
+      {
+        "start": "0x002F8EBB",
+        "end": "0x002F8EBC",
+        "length": 2
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x00285330",
+        "end": "0x00285337",
+        "length": 8
+      },
+      {
+        "start": "0x0028535B",
+        "end": "0x0028539A",
+        "length": 64
+      },
+      {
+        "start": "0x002853DA",
+        "end": "0x002853DB",
+        "length": 2
+      },
+      {
+        "start": "0x00285403",
+        "end": "0x002854CB",
+        "length": 201
+      },
+      {
+        "start": "0x00285536",
+        "end": "0x0028553A",
+        "length": 5
+      },
+      {
+        "start": "0x0028559E",
+        "end": "0x0028559E",
+        "length": 1
+      },
+      {
+        "start": "0x00285627",
+        "end": "0x00285627",
+        "length": 1
+      },
+      {
+        "start": "0x00285653",
+        "end": "0x002856E5",
+        "length": 147
+      },
+      {
+        "start": "0x00294310",
+        "end": "0x00294313",
+        "length": 4
+      },
+      {
+        "start": "0x00294366",
+        "end": "0x00294367",
+        "length": 2
+      },
+      {
+        "start": "0x002943AE",
+        "end": "0x002943C3",
+        "length": 22
+      },
+      {
+        "start": "0x002943E4",
+        "end": "0x002943E5",
+        "length": 2
+      },
+      {
+        "start": "0x00294464",
+        "end": "0x00294467",
+        "length": 4
+      },
+      {
+        "start": "0x002944BC",
+        "end": "0x002944C5",
+        "length": 10
+      },
+      {
+        "start": "0x002944E8",
+        "end": "0x002944E9",
+        "length": 2
+      },
+      {
+        "start": "0x00294510",
+        "end": "0x00294515",
+        "length": 6
+      },
+      {
+        "start": "0x0029453E",
+        "end": "0x0029453F",
+        "length": 2
+      },
+      {
+        "start": "0x002945C2",
+        "end": "0x002945D7",
+        "length": 22
+      },
+      {
+        "start": "0x00294620",
+        "end": "0x00294627",
+        "length": 8
+      },
+      {
+        "start": "0x002947EC",
+        "end": "0x002947ED",
+        "length": 2
+      },
+      {
+        "start": "0x002948FE",
+        "end": "0x002948FF",
+        "length": 2
+      },
+      {
+        "start": "0x00294956",
+        "end": "0x0029499D",
+        "length": 72
+      },
+      {
+        "start": "0x002949CA",
+        "end": "0x00294A1D",
+        "length": 84
+      },
+      {
+        "start": "0x00294A5A",
+        "end": "0x00294A7B",
+        "length": 34
+      },
+      {
+        "start": "0x002D2440",
+        "end": "0x002D245B",
+        "length": 28
+      },
+      {
+        "start": "0x002D2484",
+        "end": "0x002D24A1",
+        "length": 30
+      },
+      {
+        "start": "0x002D24C8",
+        "end": "0x002D24E6",
+        "length": 31
+      },
+      {
+        "start": "0x002D2596",
+        "end": "0x002D25B3",
+        "length": 30
+      },
+      {
+        "start": "0x002F8EBB",
+        "end": "0x002F8EBC",
+        "length": 2
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x00285330",
+        "length": 4,
+        "orig_sample": "04040309",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285337",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028535B",
+        "length": 1,
+        "orig_sample": "0a",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028535D",
+        "length": 2,
+        "orig_sample": "0909",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285361",
+        "length": 2,
+        "orig_sample": "0409",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x0028537E",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285380",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285382",
+        "length": 9,
+        "orig_sample": "0b0101040401010e0a",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x00285392",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028539A",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002853DA",
+        "length": 2,
+        "orig_sample": "0a0d",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285403",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285405",
+        "length": 2,
+        "orig_sample": "0104",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285408",
+        "length": 2,
+        "orig_sample": "0304",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x0028541C",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285430",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285432",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285447",
+        "length": 2,
+        "orig_sample": "0404",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285466",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285475",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285484",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285486",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285489",
+        "length": 5,
+        "orig_sample": "0303030303",
+        "rep_sample": "0000000000"
+      },
+      {
+        "offset": "0x00285490",
+        "length": 4,
+        "orig_sample": "03030303",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x002854A9",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854AC",
+        "length": 2,
+        "orig_sample": "0903",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002854B8",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002854BB",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854BD",
+        "length": 1,
+        "orig_sample": "04",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854C8",
+        "length": 4,
+        "orig_sample": "04040404",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285536",
+        "length": 5,
+        "orig_sample": "0909010101",
+        "rep_sample": "0000000000"
+      },
+      {
+        "offset": "0x0028559E",
+        "length": 1,
+        "orig_sample": "04",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285627",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285653",
+        "length": 6,
+        "orig_sample": "010101010101",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x00285667",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285669",
+        "length": 4,
+        "orig_sample": "0a0a0101",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285676",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028568D",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285692",
+        "length": 2,
+        "orig_sample": "0904",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x0028569F",
+        "length": 6,
+        "orig_sample": "020202020202",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x002856AB",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002856B6",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002856D5",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002856D7",
+        "length": 2,
+        "orig_sample": "090e",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002856DC",
+        "length": 4,
+        "orig_sample": "09090909",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x002856E3",
+        "length": 3,
+        "orig_sample": "030404",
+        "rep_sample": "000000"
+      },
+      {
+        "offset": "0x00294310",
+        "length": 4,
+        "orig_sample": "01000100",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294366",
+        "length": 2,
+        "orig_sample": "ad02",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002943AE",
+        "length": 6,
+        "orig_sample": "080008000800",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x002943BC",
+        "length": 8,
+        "orig_sample": "2800280028002800",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x002943E4",
+        "length": 2,
+        "orig_sample": "d401",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294464",
+        "length": 4,
+        "orig_sample": "28002800",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002944BC",
+        "length": 2,
+        "orig_sample": "2900",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002944C0",
+        "length": 2,
+        "orig_sample": "2900",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002944C4",
+        "length": 2,
+        "orig_sample": "2900",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002944E8",
+        "length": 2,
+        "orig_sample": "2900",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294510",
+        "length": 2,
+        "orig_sample": "ac02",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294514",
+        "length": 2,
+        "orig_sample": "ac02",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0029453E",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002945C2",
+        "length": 6,
+        "orig_sample": "fc03fc03fc03",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x002945D0",
+        "length": 2,
+        "orig_sample": "fc03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002945D6",
+        "length": 2,
+        "orig_sample": "fc03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294620",
+        "length": 4,
+        "orig_sample": "fc03fc03",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294626",
+        "length": 2,
+        "orig_sample": "fc03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002947EC",
+        "length": 2,
+        "orig_sample": "d401",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002948FE",
+        "length": 2,
+        "orig_sample": "0102",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294956",
+        "length": 12,
+        "orig_sample": "020201020202020202020202",
+        "rep_sample": "ffffffffffffffffffffffff"
+      },
+      {
+        "offset": "0x0029497E",
+        "length": 2,
+        "orig_sample": "0202",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294982",
+        "length": 8,
+        "orig_sample": "0102010202020209",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x0029498C",
+        "length": 2,
+        "orig_sample": "0202",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0029499A",
+        "length": 4,
+        "orig_sample": "02020202",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002949CA",
+        "length": 4,
+        "orig_sample": "01010101",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002949D4",
+        "length": 4,
+        "orig_sample": "02020202",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002949EE",
+        "length": 12,
+        "orig_sample": "010102020202020201010101",
+        "rep_sample": "ffffffffffffffffffffffff"
+      },
+      {
+        "offset": "0x00294A06",
+        "length": 2,
+        "orig_sample": "0102",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294A1C",
+        "length": 2,
+        "orig_sample": "0202",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294A5A",
+        "length": 8,
+        "orig_sample": "0201020101020101",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x00294A68",
+        "length": 8,
+        "orig_sample": "0201010101020101",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x00294A76",
+        "length": 6,
+        "orig_sample": "010202010102",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x002D2440",
+        "length": 28,
+        "orig_sample": "401f401f401f401f401f401f401f401f401f401f401f401f7017a00f",
+        "rep_sample": "00000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D2484",
+        "length": 30,
+        "orig_sample": "7c15701764194c1d4c1d4c1d4c1d4c1d581b64196419641970177c157c15",
+        "rep_sample": "000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D24C8",
+        "length": 31,
+        "orig_sample": "480d100e8813881388131815a816a816a816181588138813a00f480db80b64",
+        "rep_sample": "00000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D2596",
+        "length": 30,
+        "orig_sample": "e40cac0d241324132413b414441644164416b414241324133c0fe40c540b",
+        "rep_sample": "000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002F8EBB",
+        "length": 2,
+        "orig_sample": "0101",
+        "rep_sample": "0000"
+      }
+    ]
+  },
+  {
+    "system": "VW Amarok EDC17C54",
+    "patch_id": "03L906012FR_9977",
+    "part": "03L906012FR",
+    "sw": "9977",
+    "file_size": 4194304,
+    "total_bytes_changed": 365,
+    "n_runs": 89,
+    "zones": [
+      {
+        "start": "0x0028536E",
+        "end": "0x00285735",
+        "length": 968
+      },
+      {
+        "start": "0x00294310",
+        "end": "0x00294A9D",
+        "length": 1934
+      },
+      {
+        "start": "0x002D3ED4",
+        "end": "0x002D4047",
+        "length": 372
+      },
+      {
+        "start": "0x002FBABB",
+        "end": "0x002FBABC",
+        "length": 2
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x0028536E",
+        "end": "0x00285375",
+        "length": 8
+      },
+      {
+        "start": "0x00285399",
+        "end": "0x002853DA",
+        "length": 66
+      },
+      {
+        "start": "0x0028541C",
+        "end": "0x00285512",
+        "length": 247
+      },
+      {
+        "start": "0x00285582",
+        "end": "0x00285586",
+        "length": 5
+      },
+      {
+        "start": "0x002855EA",
+        "end": "0x002855EA",
+        "length": 1
+      },
+      {
+        "start": "0x00285673",
+        "end": "0x00285673",
+        "length": 1
+      },
+      {
+        "start": "0x0028569F",
+        "end": "0x00285735",
+        "length": 151
+      },
+      {
+        "start": "0x00294310",
+        "end": "0x0029431F",
+        "length": 16
+      },
+      {
+        "start": "0x0029436A",
+        "end": "0x0029436F",
+        "length": 6
+      },
+      {
+        "start": "0x002943B4",
+        "end": "0x002943C9",
+        "length": 22
+      },
+      {
+        "start": "0x0029446C",
+        "end": "0x0029446F",
+        "length": 4
+      },
+      {
+        "start": "0x00294490",
+        "end": "0x00294491",
+        "length": 2
+      },
+      {
+        "start": "0x002944C0",
+        "end": "0x002944CF",
+        "length": 16
+      },
+      {
+        "start": "0x002944FA",
+        "end": "0x002944FD",
+        "length": 4
+      },
+      {
+        "start": "0x00294550",
+        "end": "0x00294553",
+        "length": 4
+      },
+      {
+        "start": "0x002945AC",
+        "end": "0x002945E9",
+        "length": 62
+      },
+      {
+        "start": "0x00294614",
+        "end": "0x00294659",
+        "length": 70
+      },
+      {
+        "start": "0x00294738",
+        "end": "0x00294739",
+        "length": 2
+      },
+      {
+        "start": "0x00294808",
+        "end": "0x00294809",
+        "length": 2
+      },
+      {
+        "start": "0x00294848",
+        "end": "0x00294849",
+        "length": 2
+      },
+      {
+        "start": "0x0029499E",
+        "end": "0x002949BD",
+        "length": 32
+      },
+      {
+        "start": "0x002949EA",
+        "end": "0x00294A41",
+        "length": 88
+      },
+      {
+        "start": "0x00294A82",
+        "end": "0x00294A9D",
+        "length": 28
+      },
+      {
+        "start": "0x002D3ED4",
+        "end": "0x002D3EEF",
+        "length": 28
+      },
+      {
+        "start": "0x002D3F18",
+        "end": "0x002D3F35",
+        "length": 30
+      },
+      {
+        "start": "0x002D3F5C",
+        "end": "0x002D3F7A",
+        "length": 31
+      },
+      {
+        "start": "0x002D402A",
+        "end": "0x002D4047",
+        "length": 30
+      },
+      {
+        "start": "0x002FBABB",
+        "end": "0x002FBABC",
+        "length": 2
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x0028536E",
+        "length": 4,
+        "orig_sample": "04040309",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285375",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285399",
+        "length": 1,
+        "orig_sample": "0a",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028539B",
+        "length": 3,
+        "orig_sample": "090909",
+        "rep_sample": "000000"
+      },
+      {
+        "offset": "0x002853A0",
+        "length": 3,
+        "orig_sample": "040909",
+        "rep_sample": "000000"
+      },
+      {
+        "offset": "0x002853BE",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002853C0",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002853C2",
+        "length": 9,
+        "orig_sample": "0b0101040401010e09",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x002853D2",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002853DA",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028541C",
+        "length": 2,
+        "orig_sample": "090d",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x0028542E",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285446",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285448",
+        "length": 2,
+        "orig_sample": "0104",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x0028544B",
+        "length": 2,
+        "orig_sample": "0304",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285463",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285477",
+        "length": 1,
+        "orig_sample": "0b",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028548E",
+        "length": 2,
+        "orig_sample": "0404",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002854AD",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854BC",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854CB",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854CD",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002854D0",
+        "length": 5,
+        "orig_sample": "0303030303",
+        "rep_sample": "0000000000"
+      },
+      {
+        "offset": "0x002854D7",
+        "length": 4,
+        "orig_sample": "03030303",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x002854F0",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002854F3",
+        "length": 2,
+        "orig_sample": "0903",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002854FF",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x00285502",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285504",
+        "length": 1,
+        "orig_sample": "04",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028550F",
+        "length": 4,
+        "orig_sample": "04040404",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285582",
+        "length": 5,
+        "orig_sample": "0909010101",
+        "rep_sample": "0000000000"
+      },
+      {
+        "offset": "0x002855EA",
+        "length": 1,
+        "orig_sample": "04",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285673",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0028569F",
+        "length": 3,
+        "orig_sample": "010101",
+        "rep_sample": "000000"
+      },
+      {
+        "offset": "0x002856A3",
+        "length": 3,
+        "orig_sample": "010101",
+        "rep_sample": "000000"
+      },
+      {
+        "offset": "0x002856B5",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002856B7",
+        "length": 4,
+        "orig_sample": "0a0a0101",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x002856C4",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x002856DB",
+        "length": 2,
+        "orig_sample": "0303",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002856E0",
+        "length": 2,
+        "orig_sample": "0904",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x002856ED",
+        "length": 8,
+        "orig_sample": "0202020b0202020b",
+        "rep_sample": "0000000000000000"
+      },
+      {
+        "offset": "0x002856FB",
+        "length": 1,
+        "orig_sample": "03",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285706",
+        "length": 1,
+        "orig_sample": "01",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285725",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x00285727",
+        "length": 2,
+        "orig_sample": "090e",
+        "rep_sample": "0000"
+      },
+      {
+        "offset": "0x0028572C",
+        "length": 4,
+        "orig_sample": "09090909",
+        "rep_sample": "00000000"
+      },
+      {
+        "offset": "0x00285733",
+        "length": 3,
+        "orig_sample": "030404",
+        "rep_sample": "000000"
+      },
+      {
+        "offset": "0x00294310",
+        "length": 8,
+        "orig_sample": "fd07fd07fd07fd07",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x0029431E",
+        "length": 2,
+        "orig_sample": "0508",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0029436A",
+        "length": 6,
+        "orig_sample": "090009000900",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x002943B4",
+        "length": 4,
+        "orig_sample": "fd07f907",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002943C6",
+        "length": 4,
+        "orig_sample": "0100f10d",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x0029446C",
+        "length": 4,
+        "orig_sample": "0100fd03",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294490",
+        "length": 2,
+        "orig_sample": "2d00",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002944C0",
+        "length": 2,
+        "orig_sample": "ed03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002944C4",
+        "length": 4,
+        "orig_sample": "ed03fd03",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002944CA",
+        "length": 6,
+        "orig_sample": "cd03fd034d02",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x002944FA",
+        "length": 4,
+        "orig_sample": "01000100",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294550",
+        "length": 4,
+        "orig_sample": "fd07fd07",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002945AC",
+        "length": 2,
+        "orig_sample": "2800",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002945CA",
+        "length": 2,
+        "orig_sample": "ed03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002945CE",
+        "length": 2,
+        "orig_sample": "d401",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002945D4",
+        "length": 10,
+        "orig_sample": "d401d401d401d401d401",
+        "rep_sample": "ffffffffffffffffffff"
+      },
+      {
+        "offset": "0x002945E6",
+        "length": 4,
+        "orig_sample": "d401d401",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294614",
+        "length": 2,
+        "orig_sample": "4902",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294632",
+        "length": 4,
+        "orig_sample": "00000000",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294638",
+        "length": 2,
+        "orig_sample": "2000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0029463C",
+        "length": 2,
+        "orig_sample": "2000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294652",
+        "length": 8,
+        "orig_sample": "0800280028002800",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x00294738",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294808",
+        "length": 2,
+        "orig_sample": "fc03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294848",
+        "length": 2,
+        "orig_sample": "f907",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0029499E",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002949A6",
+        "length": 4,
+        "orig_sample": "bd03bd03",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002949AC",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002949BC",
+        "length": 2,
+        "orig_sample": "fd03",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002949EA",
+        "length": 2,
+        "orig_sample": "d401",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x002949F4",
+        "length": 4,
+        "orig_sample": "dd03dd03",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294A0E",
+        "length": 8,
+        "orig_sample": "2000200020002000",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x00294A2A",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294A40",
+        "length": 2,
+        "orig_sample": "0100",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x00294A82",
+        "length": 4,
+        "orig_sample": "f9070100",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x00294A8C",
+        "length": 8,
+        "orig_sample": "2000200020002000",
+        "rep_sample": "ffffffffffffffff"
+      },
+      {
+        "offset": "0x00294A9A",
+        "length": 4,
+        "orig_sample": "0100d501",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x002D3ED4",
+        "length": 28,
+        "orig_sample": "401f401f401f401f401f401f401f401f401f401f401f401f7017a00f",
+        "rep_sample": "00000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D3F18",
+        "length": 30,
+        "orig_sample": "7c15701764194c1d4c1d4c1d4c1d4c1d581b64196419641970177c157c15",
+        "rep_sample": "000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D3F5C",
+        "length": 31,
+        "orig_sample": "480d100e68106810c0121815a816a816a816181588135c12a00f480db80b64",
+        "rep_sample": "00000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002D402A",
+        "length": 30,
+        "orig_sample": "e40cac0d041004105c12b414441644164416b4142413f8113c0fe40c540b",
+        "rep_sample": "000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": "0x002FBABB",
+        "length": 2,
+        "orig_sample": "0101",
+        "rep_sample": "0000"
+      }
+    ]
+  }
+]

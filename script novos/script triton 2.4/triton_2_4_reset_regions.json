@@ -1,0 +1,15 @@
+[
+ {
+  "sw": "TNQ1HNQ1H102",
+  "hw": "H1GT45W",
+  "denso_year": "2021",
+  "file_size": 1572864,
+  "type": "identification_only",
+  "id_block": "0x6000",
+  "mirror": "0x0DA000",
+  "note": "sem arquivo reparado - regioes de reset nao disponiveis",
+  "zones": [],
+  "clusters": [],
+  "runs": []
+ }
+]

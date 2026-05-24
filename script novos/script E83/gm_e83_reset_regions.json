@@ -1,0 +1,74 @@
+[
+ {
+  "vehicle": "Onix",
+  "sw": "86ABJT26414520XS",
+  "ecu": "GM E83",
+  "file_size": 2097152,
+  "type": "reset_pair",
+  "id_sw_offset": "0x3B8",
+  "gm_part_repeated": "AA12629371",
+  "total_bytes_changed": 2,
+  "gap_between_changes": "0x4",
+  "reset_value": "0x00",
+  "changes": [
+   {
+    "offset": "0x034DA8",
+    "orig": "0x06",
+    "rep": "0x00"
+   },
+   {
+    "offset": "0x034DAC",
+    "orig": "0x06",
+    "rep": "0x00"
+   }
+  ]
+ },
+ {
+  "vehicle": "Spin 1.8",
+  "sw": "86ABSW26612620LE",
+  "ecu": "GM E83",
+  "file_size": 2097152,
+  "type": "reset_pair",
+  "id_sw_offset": "0x3B8",
+  "gm_part_repeated": "AA12629371",
+  "total_bytes_changed": 2,
+  "gap_between_changes": "0x4",
+  "reset_value": "0x00",
+  "changes": [
+   {
+    "offset": "0x034DAD",
+    "orig": "0x05",
+    "rep": "0x00"
+   },
+   {
+    "offset": "0x034DB1",
+    "orig": "0x06",
+    "rep": "0x00"
+   }
+  ]
+ },
+ {
+  "vehicle": "Spin (AA47)",
+  "sw": "86AA472631232290",
+  "ecu": "GM E83",
+  "file_size": 2097152,
+  "type": "reset_pair",
+  "id_sw_offset": "0x3B8",
+  "gm_part_repeated": "AA12629371",
+  "total_bytes_changed": 2,
+  "gap_between_changes": "0x4",
+  "reset_value": "0x00",
+  "changes": [
+   {
+    "offset": "0x034D9E",
+    "orig": "0x06",
+    "rep": "0x00"
+   },
+   {
+    "offset": "0x034DA2",
+    "orig": "0x06",
+    "rep": "0x00"
+   }
+  ]
+ }
+]

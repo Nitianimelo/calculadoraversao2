@@ -1,0 +1,17 @@
+# Firmware dumps and repaired outputs are source data, not deployable code.
+script novos/**
+!script novos/**/
+!script novos/**/*.json
+!script novos/**/*.md
+!script novos/**/*.py
+
+# Runtime/local artifacts
+.netlify/
+node_modules/
+dist/
+build/
+*.log
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

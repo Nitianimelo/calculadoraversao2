@@ -1,0 +1,718 @@
+[
+  {
+    "system": "Ford Ranger 3.2 SID208",
+    "patch_id": "AVA",
+    "hw": "AB39-12A650-FE",
+    "cal": "PAB39-12A650-AVA",
+    "sw": "AB39-12K532-AVA",
+    "file_size": 4194304,
+    "total_bytes_changed": 120,
+    "n_runs": 42,
+    "zones": [
+      {
+        "start": "0x00001700",
+        "end": "0x00001700",
+        "length": 1
+      },
+      {
+        "start": "0x0020F9DB",
+        "end": "0x0020FE23",
+        "length": 1097
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x00001700",
+        "end": "0x00001700",
+        "length": 1
+      },
+      {
+        "start": "0x0020F9DB",
+        "end": "0x0020FA4D",
+        "length": 115
+      },
+      {
+        "start": "0x0020FAA0",
+        "end": "0x0020FAA3",
+        "length": 4
+      },
+      {
+        "start": "0x0020FB00",
+        "end": "0x0020FB2F",
+        "length": 48
+      },
+      {
+        "start": "0x0020FB5D",
+        "end": "0x0020FBA3",
+        "length": 71
+      },
+      {
+        "start": "0x0020FC5B",
+        "end": "0x0020FC68",
+        "length": 14
+      },
+      {
+        "start": "0x0020FCAC",
+        "end": "0x0020FCCD",
+        "length": 34
+      },
+      {
+        "start": "0x0020FD20",
+        "end": "0x0020FD23",
+        "length": 4
+      },
+      {
+        "start": "0x0020FD99",
+        "end": "0x0020FDAF",
+        "length": 23
+      },
+      {
+        "start": "0x0020FDDF",
+        "end": "0x0020FE23",
+        "length": 69
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x00001700",
+        "length": 1,
+        "orig_sample": "ff",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0020F9DB",
+        "length": 7,
+        "orig_sample": "11111111110011",
+        "rep_sample": "ffffffffffffff"
+      },
+      {
+        "offset": "0x0020F9E7",
+        "length": 2,
+        "orig_sample": "1010",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020F9EA",
+        "length": 3,
+        "orig_sample": "000000",
+        "rep_sample": "ffffff"
+      },
+      {
+        "offset": "0x0020FA04",
+        "length": 4,
+        "orig_sample": "10101010",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x0020FA0A",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FA13",
+        "length": 3,
+        "orig_sample": "000000",
+        "rep_sample": "ffffff"
+      },
+      {
+        "offset": "0x0020FA1C",
+        "length": 1,
+        "orig_sample": "00",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FA2C",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FA2E",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FA38",
+        "length": 6,
+        "orig_sample": "101011101011",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x0020FA40",
+        "length": 1,
+        "orig_sample": "11",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FA4C",
+        "length": 2,
+        "orig_sample": "1011",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020FAA0",
+        "length": 4,
+        "orig_sample": "11110000",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x0020FB00",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FB02",
+        "length": 2,
+        "orig_sample": "1000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020FB07",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FB19",
+        "length": 2,
+        "orig_sample": "0000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020FB29",
+        "length": 2,
+        "orig_sample": "1000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020FB2C",
+        "length": 4,
+        "orig_sample": "10101010",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x0020FB5D",
+        "length": 11,
+        "orig_sample": "1010101010101010100010",
+        "rep_sample": "ffffffffffffffffffffff"
+      },
+      {
+        "offset": "0x0020FB7E",
+        "length": 6,
+        "orig_sample": "001111000011",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x0020FB85",
+        "length": 1,
+        "orig_sample": "00",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FB89",
+        "length": 4,
+        "orig_sample": "00000000",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x0020FBA3",
+        "length": 1,
+        "orig_sample": "87",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FC5B",
+        "length": 7,
+        "orig_sample": "09090909090909",
+        "rep_sample": "0c0c0c0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FC67",
+        "length": 2,
+        "orig_sample": "0a0a",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FCAC",
+        "length": 1,
+        "orig_sample": "06",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FCB8",
+        "length": 6,
+        "orig_sample": "080808080808",
+        "rep_sample": "0c0c0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FCC0",
+        "length": 1,
+        "orig_sample": "08",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FCCC",
+        "length": 2,
+        "orig_sample": "0a0a",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FD20",
+        "length": 4,
+        "orig_sample": "09090909",
+        "rep_sample": "0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FD99",
+        "length": 2,
+        "orig_sample": "0a0a",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FDA9",
+        "length": 2,
+        "orig_sample": "0a0a",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FDAC",
+        "length": 4,
+        "orig_sample": "0a0a0a0a",
+        "rep_sample": "0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FDDF",
+        "length": 2,
+        "orig_sample": "0909",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FDE2",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FDE4",
+        "length": 2,
+        "orig_sample": "0909",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FDFE",
+        "length": 6,
+        "orig_sample": "090909090909",
+        "rep_sample": "0c0c0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FE05",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FE09",
+        "length": 4,
+        "orig_sample": "09090909",
+        "rep_sample": "0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FE23",
+        "length": 1,
+        "orig_sample": "08",
+        "rep_sample": "0c"
+      }
+    ]
+  },
+  {
+    "system": "Ford Ranger 3.2 SID208",
+    "patch_id": "AVJ",
+    "hw": "AB39-12A650-FE",
+    "cal": "AB39-12A650-AVJ",
+    "sw": "AB39-12K532-AVJ",
+    "file_size": 4194304,
+    "total_bytes_changed": 159,
+    "n_runs": 52,
+    "zones": [
+      {
+        "start": "0x00001700",
+        "end": "0x00001700",
+        "length": 1
+      },
+      {
+        "start": "0x0020FB5B",
+        "end": "0x0020FFB0",
+        "length": 1110
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x00001700",
+        "end": "0x00001700",
+        "length": 1
+      },
+      {
+        "start": "0x0020FB5B",
+        "end": "0x0020FBD8",
+        "length": 126
+      },
+      {
+        "start": "0x0020FC25",
+        "end": "0x0020FC3C",
+        "length": 24
+      },
+      {
+        "start": "0x0020FC85",
+        "end": "0x0020FD28",
+        "length": 164
+      },
+      {
+        "start": "0x0020FDE3",
+        "end": "0x0020FDF0",
+        "length": 14
+      },
+      {
+        "start": "0x0020FE34",
+        "end": "0x0020FE5C",
+        "length": 41
+      },
+      {
+        "start": "0x0020FEAD",
+        "end": "0x0020FEB2",
+        "length": 6
+      },
+      {
+        "start": "0x0020FEE1",
+        "end": "0x0020FEE1",
+        "length": 1
+      },
+      {
+        "start": "0x0020FF26",
+        "end": "0x0020FF3E",
+        "length": 25
+      },
+      {
+        "start": "0x0020FF6C",
+        "end": "0x0020FFB0",
+        "length": 69
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x00001700",
+        "length": 1,
+        "orig_sample": "ff",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0020FB5B",
+        "length": 7,
+        "orig_sample": "11111111110011",
+        "rep_sample": "ffffffffffffff"
+      },
+      {
+        "offset": "0x0020FB63",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FB67",
+        "length": 2,
+        "orig_sample": "1010",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020FB6A",
+        "length": 3,
+        "orig_sample": "000000",
+        "rep_sample": "ffffff"
+      },
+      {
+        "offset": "0x0020FB84",
+        "length": 4,
+        "orig_sample": "10101010",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x0020FB8A",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FB93",
+        "length": 6,
+        "orig_sample": "000000101000",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x0020FB9C",
+        "length": 1,
+        "orig_sample": "00",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FBAC",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FBAE",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FBB8",
+        "length": 11,
+        "orig_sample": "1010110010101100101011",
+        "rep_sample": "ffffffffffffffffffffff"
+      },
+      {
+        "offset": "0x0020FBC9",
+        "length": 3,
+        "orig_sample": "000000",
+        "rep_sample": "ffffff"
+      },
+      {
+        "offset": "0x0020FBCD",
+        "length": 3,
+        "orig_sample": "000000",
+        "rep_sample": "ffffff"
+      },
+      {
+        "offset": "0x0020FBD1",
+        "length": 2,
+        "orig_sample": "1011",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020FBD8",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FC25",
+        "length": 4,
+        "orig_sample": "11110000",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x0020FC38",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FC3A",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FC3C",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FC85",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FC87",
+        "length": 2,
+        "orig_sample": "1000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020FC8C",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FC9E",
+        "length": 2,
+        "orig_sample": "0000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020FCAE",
+        "length": 2,
+        "orig_sample": "1000",
+        "rep_sample": "ffff"
+      },
+      {
+        "offset": "0x0020FCB1",
+        "length": 4,
+        "orig_sample": "10101010",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x0020FCD1",
+        "length": 1,
+        "orig_sample": "10",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FCDE",
+        "length": 1,
+        "orig_sample": "00",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FCE2",
+        "length": 11,
+        "orig_sample": "1010101010101010100010",
+        "rep_sample": "ffffffffffffffffffffff"
+      },
+      {
+        "offset": "0x0020FD03",
+        "length": 6,
+        "orig_sample": "001111000011",
+        "rep_sample": "ffffffffffff"
+      },
+      {
+        "offset": "0x0020FD0A",
+        "length": 1,
+        "orig_sample": "00",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FD0E",
+        "length": 4,
+        "orig_sample": "00000000",
+        "rep_sample": "ffffffff"
+      },
+      {
+        "offset": "0x0020FD28",
+        "length": 1,
+        "orig_sample": "87",
+        "rep_sample": "ff"
+      },
+      {
+        "offset": "0x0020FDE3",
+        "length": 7,
+        "orig_sample": "09090909090909",
+        "rep_sample": "0c0c0c0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FDEF",
+        "length": 2,
+        "orig_sample": "0a0a",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FE34",
+        "length": 1,
+        "orig_sample": "06",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FE38",
+        "length": 1,
+        "orig_sample": "0a",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FE40",
+        "length": 12,
+        "orig_sample": "080808000808080008080800",
+        "rep_sample": "0c0c0c0c0c0c0c0c0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FE54",
+        "length": 1,
+        "orig_sample": "00",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FE58",
+        "length": 3,
+        "orig_sample": "000a0a",
+        "rep_sample": "0c0c0c"
+      },
+      {
+        "offset": "0x0020FE5C",
+        "length": 1,
+        "orig_sample": "0a",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FEAD",
+        "length": 6,
+        "orig_sample": "090909090606",
+        "rep_sample": "0c0c0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FEE1",
+        "length": 1,
+        "orig_sample": "00",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FF26",
+        "length": 2,
+        "orig_sample": "0a0a",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FF36",
+        "length": 7,
+        "orig_sample": "0a0a0a0a0a0a0a",
+        "rep_sample": "0c0c0c0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FF3E",
+        "length": 1,
+        "orig_sample": "0a",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FF6C",
+        "length": 2,
+        "orig_sample": "0909",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FF6F",
+        "length": 1,
+        "orig_sample": "09",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FF71",
+        "length": 2,
+        "orig_sample": "0909",
+        "rep_sample": "0c0c"
+      },
+      {
+        "offset": "0x0020FF8B",
+        "length": 15,
+        "orig_sample": "090909090909090909090909090909",
+        "rep_sample": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c"
+      },
+      {
+        "offset": "0x0020FFA6",
+        "length": 1,
+        "orig_sample": "00",
+        "rep_sample": "0c"
+      },
+      {
+        "offset": "0x0020FFB0",
+        "length": 1,
+        "orig_sample": "08",
+        "rep_sample": "0c"
+      }
+    ]
+  }
+]

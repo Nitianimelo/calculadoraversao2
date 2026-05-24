@@ -1,0 +1,124 @@
+[
+  {
+    "system": "GM E84 P0420",
+    "patch_id": "QQO5E99",
+    "sw": "8655436976432023587766",
+    "file_size": 6291456,
+    "total_bytes_changed": 30,
+    "n_runs": 5,
+    "zones": [
+      {
+        "start": "0x0004D16C",
+        "end": "0x0004D181",
+        "length": 22
+      },
+      {
+        "start": "0x005FFFC4",
+        "end": "0x005FFFD9",
+        "length": 22
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x0004D16C",
+        "end": "0x0004D181",
+        "length": 22
+      },
+      {
+        "start": "0x005FFFC4",
+        "end": "0x005FFFD9",
+        "length": 22
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x0004D16C",
+        "length": 1,
+        "orig_sample": "05",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0004D172",
+        "length": 1,
+        "orig_sample": "06",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0004D17B",
+        "length": 5,
+        "orig_sample": "0606060606",
+        "rep_sample": "0000000000"
+      },
+      {
+        "offset": "0x0004D181",
+        "length": 1,
+        "orig_sample": "07",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x005FFFC4",
+        "length": 22,
+        "orig_sample": "ffffffffffffffffffffffffffffffffffffffffffff",
+        "rep_sample": "282763272e29416c70686143616c63756c61646f7240"
+      }
+    ]
+  },
+  {
+    "system": "GM E84 P0420",
+    "patch_id": "12677831",
+    "sw": "860559BGJC6920HB186055",
+    "file_size": 6291456,
+    "total_bytes_changed": 29,
+    "n_runs": 4,
+    "zones": [
+      {
+        "start": "0x0004D16C",
+        "end": "0x0004D17F",
+        "length": 20
+      },
+      {
+        "start": "0x005FFFC4",
+        "end": "0x005FFFD9",
+        "length": 22
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x0004D16C",
+        "end": "0x0004D17F",
+        "length": 20
+      },
+      {
+        "start": "0x005FFFC4",
+        "end": "0x005FFFD9",
+        "length": 22
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x0004D16C",
+        "length": 1,
+        "orig_sample": "05",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0004D172",
+        "length": 1,
+        "orig_sample": "06",
+        "rep_sample": "00"
+      },
+      {
+        "offset": "0x0004D17B",
+        "length": 5,
+        "orig_sample": "0606060606",
+        "rep_sample": "0000000000"
+      },
+      {
+        "offset": "0x005FFFC4",
+        "length": 22,
+        "orig_sample": "ffffffffffffffffffffffffffffffffffffffffffff",
+        "rep_sample": "282763272e29416c70686143616c63756c61646f7240"
+      }
+    ]
+  }
+]

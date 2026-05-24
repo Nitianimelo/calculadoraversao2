@@ -1,0 +1,13 @@
+[functions]
+  included_files = [
+    "script novos/Script triton 3.2/triton_reset_regions.json",
+    "script novos/Script ranger 3.2 SID208/sid208_ranger32_reset_regions.json",
+    "script novos/Script Ranger 2.2 SID208/sid208_ranger22_reset_regions.json",
+    "script novos/Script Frontier 2.5/nissan_frontier_yd25_reset_regions.json",
+    "script novos/script HR DCM3.7/hr_dcm37_reset_regions.json",
+    "script novos/script amarok/amarok_edc17c54_reset_regions.json",
+    "script novos/script ducato/ducato_mjd8f3_reset_regions.json",
+    "script novos/Script 7gF p0420/fiat_iaw7gf_p0420_regions.json",
+    "script novos/script E83/gm_e83_reset_regions.json",
+    "script novos/Script e84 p0420/gm_e84_p0420_regions.json"
+  ]

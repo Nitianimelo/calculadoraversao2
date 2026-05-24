@@ -1,0 +1,380 @@
+[
+  {
+    "system": "Fiat IAW 7GF P0420",
+    "patch_id": "7GF_EV_HW200",
+    "hw": "HW200",
+    "id_text": "IAW7GFHW200",
+    "file_size": 1048576,
+    "total_bytes_changed": 30,
+    "n_runs": 4,
+    "zones": [
+      {
+        "start": "0x000C83C4",
+        "end": "0x000C8519",
+        "length": 342
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x000C83C4",
+        "end": "0x000C83D5",
+        "length": 18
+      },
+      {
+        "start": "0x000C8508",
+        "end": "0x000C8519",
+        "length": 18
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x000C83C4",
+        "length": 9,
+        "orig_sample": "0420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000C83D0",
+        "length": 6,
+        "orig_sample": "c3ffffffeb01",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x000C8508",
+        "length": 9,
+        "orig_sample": "1420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000C8514",
+        "length": 6,
+        "orig_sample": "c3ffffffec02",
+        "rep_sample": "000000000000"
+      }
+    ]
+  },
+  {
+    "system": "Fiat IAW 7GF P0420",
+    "patch_id": "7GF_AS_HW201",
+    "hw": "HW201",
+    "id_text": "IAW7GFHW201",
+    "file_size": 1048576,
+    "total_bytes_changed": 30,
+    "n_runs": 4,
+    "zones": [
+      {
+        "start": "0x000CF66C",
+        "end": "0x000CF7C1",
+        "length": 342
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x000CF66C",
+        "end": "0x000CF67D",
+        "length": 18
+      },
+      {
+        "start": "0x000CF7B0",
+        "end": "0x000CF7C1",
+        "length": 18
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x000CF66C",
+        "length": 9,
+        "orig_sample": "0420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CF678",
+        "length": 6,
+        "orig_sample": "c3ffffffeb01",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x000CF7B0",
+        "length": 9,
+        "orig_sample": "1420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CF7BC",
+        "length": 6,
+        "orig_sample": "c3ffffffec02",
+        "rep_sample": "000000000000"
+      }
+    ]
+  },
+  {
+    "system": "Fiat IAW 7GF P0420",
+    "patch_id": "7GF39_HW203",
+    "hw": "HW203",
+    "id_text": "IAW7GFHW203",
+    "file_size": 1048576,
+    "total_bytes_changed": 30,
+    "n_runs": 4,
+    "zones": [
+      {
+        "start": "0x000CA8A0",
+        "end": "0x000CA9F5",
+        "length": 342
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x000CA8A0",
+        "end": "0x000CA8B1",
+        "length": 18
+      },
+      {
+        "start": "0x000CA9E4",
+        "end": "0x000CA9F5",
+        "length": 18
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x000CA8A0",
+        "length": 9,
+        "orig_sample": "0420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CA8AC",
+        "length": 6,
+        "orig_sample": "c3ffffffeb01",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x000CA9E4",
+        "length": 9,
+        "orig_sample": "1420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CA9F0",
+        "length": 6,
+        "orig_sample": "c3ffffffec02",
+        "rep_sample": "000000000000"
+      }
+    ]
+  },
+  {
+    "system": "Fiat IAW 7GF P0420",
+    "patch_id": "7GF4C_HW303",
+    "hw": "HW303",
+    "id_text": "IAW7GFHW303",
+    "file_size": 1048576,
+    "total_bytes_changed": 30,
+    "n_runs": 4,
+    "zones": [
+      {
+        "start": "0x000CCEC0",
+        "end": "0x000CD015",
+        "length": 342
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x000CCEC0",
+        "end": "0x000CCED1",
+        "length": 18
+      },
+      {
+        "start": "0x000CD004",
+        "end": "0x000CD015",
+        "length": 18
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x000CCEC0",
+        "length": 9,
+        "orig_sample": "0420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CCECC",
+        "length": 6,
+        "orig_sample": "c3ffffffeb01",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x000CD004",
+        "length": 9,
+        "orig_sample": "1420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CD010",
+        "length": 6,
+        "orig_sample": "c3ffffffec02",
+        "rep_sample": "000000000000"
+      }
+    ]
+  },
+  {
+    "system": "Fiat IAW 7GF P0420",
+    "patch_id": "7GF6B_HW301",
+    "hw": "HW301",
+    "id_text": "IAW7GFHW301",
+    "file_size": 1048576,
+    "total_bytes_changed": 30,
+    "n_runs": 4,
+    "zones": [
+      {
+        "start": "0x000CD2DC",
+        "end": "0x000CD431",
+        "length": 342
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x000CD2DC",
+        "end": "0x000CD2ED",
+        "length": 18
+      },
+      {
+        "start": "0x000CD420",
+        "end": "0x000CD431",
+        "length": 18
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x000CD2DC",
+        "length": 9,
+        "orig_sample": "0420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CD2E8",
+        "length": 6,
+        "orig_sample": "c3ffffffeb01",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x000CD420",
+        "length": 9,
+        "orig_sample": "1420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CD42C",
+        "length": 6,
+        "orig_sample": "c3ffffffec02",
+        "rep_sample": "000000000000"
+      }
+    ]
+  },
+  {
+    "system": "Fiat IAW 7GF P0420",
+    "patch_id": "7GFAI_HW400",
+    "hw": "HW400",
+    "id_text": "IAW7GFHW400",
+    "file_size": 1048576,
+    "total_bytes_changed": 30,
+    "n_runs": 4,
+    "zones": [
+      {
+        "start": "0x000CDDC4",
+        "end": "0x000CDF19",
+        "length": 342
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x000CDDC4",
+        "end": "0x000CDDD5",
+        "length": 18
+      },
+      {
+        "start": "0x000CDF08",
+        "end": "0x000CDF19",
+        "length": 18
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x000CDDC4",
+        "length": 9,
+        "orig_sample": "0420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CDDD0",
+        "length": 6,
+        "orig_sample": "c3ffffffeb01",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x000CDF08",
+        "length": 9,
+        "orig_sample": "1420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000CDF14",
+        "length": 6,
+        "orig_sample": "c3ffffffec02",
+        "rep_sample": "000000000000"
+      }
+    ]
+  },
+  {
+    "system": "Fiat IAW 7GF P0420",
+    "patch_id": "7GFTA_HW300",
+    "hw": "HW300",
+    "id_text": "IAW7GFHW300",
+    "file_size": 1048576,
+    "total_bytes_changed": 30,
+    "n_runs": 4,
+    "zones": [
+      {
+        "start": "0x000C3C18",
+        "end": "0x000C3D6D",
+        "length": 342
+      }
+    ],
+    "clusters": [
+      {
+        "start": "0x000C3C18",
+        "end": "0x000C3C29",
+        "length": 18
+      },
+      {
+        "start": "0x000C3D5C",
+        "end": "0x000C3D6D",
+        "length": 18
+      }
+    ],
+    "runs": [
+      {
+        "offset": "0x000C3C18",
+        "length": 9,
+        "orig_sample": "0420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000C3C24",
+        "length": 6,
+        "orig_sample": "c3ffffffeb01",
+        "rep_sample": "000000000000"
+      },
+      {
+        "offset": "0x000C3D5C",
+        "length": 9,
+        "orig_sample": "1420042062ffffff08",
+        "rep_sample": "000000000000000000"
+      },
+      {
+        "offset": "0x000C3D68",
+        "length": 6,
+        "orig_sample": "c3ffffffec02",
+        "rep_sample": "000000000000"
+      }
+    ]
+  }
+]
