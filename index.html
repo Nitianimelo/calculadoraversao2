@@ -834,7 +834,7 @@
       margin-top: auto;
       padding-top: 18px;
       width: 100%;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: space-between;
       border-top: 1px solid var(--border);
@@ -1151,12 +1151,40 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 20px;
-      max-width: 860px;
+      padding: 24px;
+      max-width: 760px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.18);
+    }
+
+    .firmware-tool::before {
+      content: "Carregue aqui o arquivo lido.";
+      display: block;
+      color: var(--text-primary);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0;
+      margin-bottom: 18px;
+    }
+
+    .firmware-tool::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      background: linear-gradient(120deg, transparent, rgba(41,182,246,0.10), transparent);
+      transform: translateX(-100%);
+    }
+
+    .firmware-tool.is-running::after {
+      opacity: 1;
+      animation: firmwareSweep 1.25s ease-in-out infinite;
     }
 
     .firmware-tool-head {
-      display: flex;
+      display: none;
       justify-content: space-between;
       gap: 16px;
       align-items: flex-start;
@@ -1194,7 +1222,19 @@
       gap: 12px;
       align-items: center;
       flex-wrap: wrap;
-      margin-top: 14px;
+      margin-top: 0;
+    }
+
+    .firmware-actions .hex-file-btn {
+      min-height: 44px;
+      border-radius: 8px;
+      border-color: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .firmware-actions .hex-file-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
     }
 
     .firmware-status {
@@ -1206,7 +1246,7 @@
       background: rgba(255,255,255,0.02);
       font-size: 13px;
       line-height: 1.6;
-      min-height: 48px;
+      min-height: 118px;
     }
 
     .firmware-status.success {
@@ -1229,15 +1269,42 @@
       display: none;
     }
 
+    .page:has(.firmware-tool) .main-header > div {
+      display: none;
+    }
+
+    .page:has(.firmware-tool) .main-header {
+      margin-bottom: 14px;
+    }
+
     .apply-script-btn {
       display: none;
       border-color: var(--accent);
       color: var(--text-primary);
       background: rgba(41,182,246,0.10);
+      box-shadow: 0 0 0 0 rgba(41,182,246,0.22);
     }
 
     .apply-script-btn.ready {
       display: inline-flex;
+      animation: applyPulse 1.8s ease-in-out infinite;
+    }
+
+    .apply-script-btn.running {
+      display: inline-flex;
+      opacity: 0.78;
+      cursor: wait;
+      animation: none;
+    }
+
+    @keyframes applyPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(41,182,246,0.18); }
+      50% { box-shadow: 0 0 0 8px rgba(41,182,246,0); }
+    }
+
+    @keyframes firmwareSweep {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
 
     .hex-viewer {
@@ -2697,8 +2764,8 @@
 
     const status = document.getElementById(key + 'Status');
     if (status) {
-      status.className = 'firmware-status success';
-      status.innerHTML = `<strong>Arquivo carregado.</strong><br>Nome: ${file.name}<br>Tamanho: ${formatSize(file.size)} • ${file.size} bytes`;
+      status.className = 'firmware-status';
+      status.innerHTML = `<strong>Validação inicial</strong><br>Arquivo: ${file.name}<br>Tamanho: ${formatSize(file.size)} • ${file.size} bytes<br>Aguardando autorização para aplicar o script.`;
     }
 
     const label = input.closest('.hex-file-btn');
@@ -2714,11 +2781,29 @@
 
     if (button) {
       button.classList.add('ready');
+      button.classList.remove('running');
+      button.disabled = false;
+      button.textContent = 'Aplicar script';
       button.onclick = () => {
         const staged = pendingScriptFiles[key];
         if (!staged || typeof window[processName] !== 'function') return;
+        const tool = button.closest('.firmware-tool');
+        if (tool) tool.classList.add('is-running');
+        if (status) {
+          status.className = 'firmware-status';
+          status.innerHTML = `<strong>Executando script</strong><br>Validando assinatura, aplicando correções e preparando o download.`;
+        }
         button.classList.remove('ready');
-        window[processName]({ files: [staged], value: '' });
+        button.classList.add('running');
+        button.disabled = true;
+        button.textContent = 'Executando...';
+        Promise.resolve(window[processName]({ files: [staged], value: '' })).finally(() => {
+          if (tool) tool.classList.remove('is-running');
+          button.classList.remove('running');
+          button.disabled = false;
+          button.textContent = 'Aplicar script';
+          if (status && status.classList.contains('error')) button.classList.add('ready');
+        });
       };
     }
   }
