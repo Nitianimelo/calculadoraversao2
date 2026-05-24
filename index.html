@@ -827,6 +827,7 @@
       color: var(--text-secondary);
       line-height: 1.55;
       max-width: 90%;
+      display: none;
     }
 
     .ecu-bottom {
@@ -1172,6 +1173,7 @@
       color: var(--text-secondary);
       font-size: 13px;
       line-height: 1.6;
+      display: none;
     }
 
     .firmware-badge {
@@ -1225,6 +1227,17 @@
 
     #page-ecu-leve .empty-state {
       display: none;
+    }
+
+    .apply-script-btn {
+      display: none;
+      border-color: var(--accent);
+      color: var(--text-primary);
+      background: rgba(41,182,246,0.10);
+    }
+
+    .apply-script-btn.ready {
+      display: inline-flex;
     }
 
     .hex-viewer {
@@ -1765,8 +1778,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="fiatIaw7gfP0420File" accept=".bin,.mpc,.ori" onchange="processFiatIaw7gfP0420(this)">
+            Carregar arquivo
+            <input type="file" id="fiatIaw7gfP0420File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'fiatIaw7gfP0420', 'processFiatIaw7gfP0420')">
           </label>
           <span class="hex-meta" id="fiatIaw7gfP0420Meta">Tamanho esperado: 1 MB</span>
         </div>
@@ -1850,8 +1863,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="gmE83File" accept=".bin,.mpc,.ori" onchange="processGmE83(this)">
+            Carregar arquivo
+            <input type="file" id="gmE83File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'gmE83', 'processGmE83')">
           </label>
           <span class="hex-meta" id="gmE83Meta">Tamanho esperado: 2 MB</span>
         </div>
@@ -1887,8 +1900,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="gmE84P0420File" accept=".bin,.mpc,.ori" onchange="processGmE84P0420(this)">
+            Carregar arquivo
+            <input type="file" id="gmE84P0420File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'gmE84P0420', 'processGmE84P0420')">
           </label>
           <span class="hex-meta" id="gmE84P0420Meta">Tamanho esperado: 6 MB</span>
         </div>
@@ -2036,8 +2049,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="ducatoMjd8f3File" accept=".bin,.mpc,.ori" onchange="processDucatoMjd8f3(this)">
+            Carregar arquivo
+            <input type="file" id="ducatoMjd8f3File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'ducatoMjd8f3', 'processDucatoMjd8f3')">
           </label>
           <span class="hex-meta" id="ducatoMjd8f3Meta">Tamanhos esperados: 2 MB ou 2 MB + 1024 bytes</span>
         </div>
@@ -2105,8 +2118,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="amarokEdc17c54File" accept=".bin,.mpc,.ori" onchange="processAmarokEdc17c54(this)">
+            Carregar arquivo
+            <input type="file" id="amarokEdc17c54File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'amarokEdc17c54', 'processAmarokEdc17c54')">
           </label>
           <span class="hex-meta" id="amarokEdc17c54Meta">Tamanho esperado: 4 MB</span>
         </div>
@@ -2174,8 +2187,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="hrDcm37File" accept=".bin,.mpc,.ori" onchange="processHrDcm37(this)">
+            Carregar arquivo
+            <input type="file" id="hrDcm37File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'hrDcm37', 'processHrDcm37')">
           </label>
           <span class="hex-meta" id="hrDcm37Meta">Tamanho esperado: 0x220000 bytes</span>
         </div>
@@ -2243,8 +2256,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="frontier25File" accept=".bin,.mpc,.ori" onchange="processFrontier25(this)">
+            Carregar arquivo
+            <input type="file" id="frontier25File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'frontier25', 'processFrontier25')">
           </label>
           <span class="hex-meta" id="frontier25Meta">Tamanhos esperados: 1 MB ou 1,5 MB</span>
         </div>
@@ -2328,8 +2341,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="ranger32Sid208File" accept=".bin,.mpc,.ori" onchange="processRanger32Sid208(this)">
+            Carregar arquivo
+            <input type="file" id="ranger32Sid208File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'ranger32Sid208', 'processRanger32Sid208')">
           </label>
           <span class="hex-meta" id="ranger32Sid208Meta">Tamanho esperado: 4 MB</span>
         </div>
@@ -2365,8 +2378,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="ranger22Sid208File" accept=".bin,.mpc,.ori" onchange="processRanger22Sid208(this)">
+            Carregar arquivo
+            <input type="file" id="ranger22Sid208File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'ranger22Sid208', 'processRanger22Sid208')">
           </label>
           <span class="hex-meta" id="ranger22Sid208Meta">Tamanho esperado: 4 MB</span>
         </div>
@@ -2434,8 +2447,8 @@
         <div class="firmware-actions">
           <label class="hex-file-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Carregar e reparar
-            <input type="file" id="triton32File" accept=".bin,.mpc,.ori" onchange="processTriton32(this)">
+            Carregar arquivo
+            <input type="file" id="triton32File" accept=".bin,.mpc,.ori" onchange="stageFirmwareScript(this, 'triton32', 'processTriton32')">
           </label>
           <span class="hex-meta" id="triton32Meta">Limite: 4,5 MB</span>
         </div>
@@ -2670,6 +2683,46 @@
 </div>
 
 <script>
+  const pendingScriptFiles = {};
+
+  function stageFirmwareScript(input, key, processName) {
+    const file = input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    pendingScriptFiles[key] = file;
+
+    const meta = document.getElementById(key + 'Meta');
+    if (meta) meta.textContent = `${file.name}  •  ${formatSize(file.size)}  •  ${file.size} bytes`;
+
+    const status = document.getElementById(key + 'Status');
+    if (status) {
+      status.className = 'firmware-status success';
+      status.innerHTML = `<strong>Arquivo carregado.</strong><br>Nome: ${file.name}<br>Tamanho: ${formatSize(file.size)} • ${file.size} bytes`;
+    }
+
+    const label = input.closest('.hex-file-btn');
+    let button = document.getElementById(key + 'Apply');
+    if (!button && label) {
+      button = document.createElement('button');
+      button.id = key + 'Apply';
+      button.type = 'button';
+      button.className = 'hex-file-btn apply-script-btn';
+      button.textContent = 'Aplicar script';
+      label.insertAdjacentElement('afterend', button);
+    }
+
+    if (button) {
+      button.classList.add('ready');
+      button.onclick = () => {
+        const staged = pendingScriptFiles[key];
+        if (!staged || typeof window[processName] !== 'function') return;
+        button.classList.remove('ready');
+        window[processName]({ files: [staged], value: '' });
+      };
+    }
+  }
+
   /* ===== Theme Management ===== */
   function setTheme(theme) {
     const body = document.body;
