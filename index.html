@@ -2739,6 +2739,7 @@
 
 <script>
   const pendingScriptFiles = {};
+  const scriptResults = {};
 
   function stageFirmwareScript(input, key, processName) {
     const file = input.files[0];
@@ -2756,13 +2757,54 @@
     const status = document.getElementById(key + 'Status');
     if (status) {
       status.className = 'firmware-status';
-      status.innerHTML = `<strong>Analisando firmware...</strong><br>Arquivo: ${file.name}<br>Tamanho: ${formatSize(file.size)} • ${file.size} bytes`;
+      status.innerHTML = `<strong>Arquivo carregado</strong><br>Arquivo: ${file.name}<br>Tamanho: ${formatSize(file.size)} • ${file.size} bytes<br>Clique em <strong>Executar</strong> para aplicar o script.`;
     }
 
-    if (typeof window[processName] === 'function') {
-      const fakeInput = { files: [file], value: '' };
-      Promise.resolve(window[processName](fakeInput));
+    const label = input.closest('.hex-file-btn');
+    let button = document.getElementById(key + 'Apply');
+    if (!button && label) {
+      button = document.createElement('button');
+      button.id = key + 'Apply';
+      button.type = 'button';
+      button.className = 'hex-file-btn';
+      button.style.cssText = 'border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);';
+      button.textContent = 'Executar';
+      label.insertAdjacentElement('afterend', button);
     }
+
+    if (button) {
+      button.style.display = 'inline-flex';
+      button.disabled = false;
+      button.textContent = 'Executar';
+      button.onclick = () => {
+        const staged = pendingScriptFiles[key];
+        if (!staged || typeof window[processName] !== 'function') return;
+        button.style.display = 'none';
+        if (tool) tool.classList.add('is-running');
+        if (status) {
+          status.className = 'firmware-status';
+          status.innerHTML = `<strong>Executando script...</strong><br>Validando assinatura, aplicando correções e preparando o arquivo.`;
+        }
+        Promise.resolve(window[processName]({ files: [staged], value: '' })).finally(() => {
+          if (tool) tool.classList.remove('is-running');
+          button.style.display = 'inline-flex';
+          if (status && status.classList.contains('error')) {
+            button.textContent = 'Executar';
+          } else if (status && status.classList.contains('success')) {
+            button.style.display = 'none';
+          }
+        });
+      };
+    }
+  }
+
+  function downloadScriptResult(key) {
+    const res = scriptResults[key];
+    if (!res) return;
+    const a = document.createElement('a');
+    a.href = res.url;
+    a.download = res.downloadName;
+    a.click();
   }
 
   /* ===== Theme Management ===== */
@@ -3240,11 +3282,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['triton32'] = { url, downloadName, blob };
 
       const hw = response.headers.get('x-chip-hw') || '-';
       const sw = response.headers.get('x-chip-sw') || '-';
@@ -3260,7 +3298,8 @@
         `Marca: Mitsubishi • Modelo: L200 Triton 3.2 • ECU: Denso<br>` +
         `HW: ${hw} • SW: ${sw} • ID: ${idOffset}<br>` +
         `Patch base: ${patchHw} / ${patchSw}<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('triton32')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
@@ -3316,11 +3355,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['ranger32Sid208'] = { url, downloadName, blob };
 
       const hw = response.headers.get('x-chip-hw') || '-';
       const cal = response.headers.get('x-chip-cal') || '-';
@@ -3336,7 +3371,8 @@
         `Marca: Ford • Modelo: Ranger 3.2 • ECU: Siemens Continental SID208<br>` +
         `HW: ${hw} • CAL: ${cal} • SW: ${sw}<br>` +
         `Offset CAL: ${calOffset} • Patch base: ${patchBase}<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('ranger32Sid208')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
@@ -3392,11 +3428,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['ranger22Sid208'] = { url, downloadName, blob };
 
       const hw = response.headers.get('x-chip-hw') || '-';
       const cal = response.headers.get('x-chip-cal') || '-';
@@ -3412,7 +3444,8 @@
         `Marca: Ford • Modelo: Ranger 2.2 • ECU: Siemens Continental SID208<br>` +
         `HW: ${hw} • CAL: ${cal} • SW: ${sw}<br>` +
         `Offset CAL: ${calOffset} • Patch base: ${patchBase}<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('ranger22Sid208')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
@@ -3468,11 +3501,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['frontier25'] = { url, downloadName, blob };
 
       const hw = response.headers.get('x-chip-hw') || '-';
       const sw = response.headers.get('x-chip-sw') || '-';
@@ -3488,7 +3517,8 @@
         `Marca: Nissan • Modelo: Frontier 2.5 YD25 • ECU: Tipo Denso<br>` +
         `HW: ${hw} • SW: ${sw} • ID: ${idOffset}<br>` +
         `Patch base: ${patchHw} / ${patchSw}<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('frontier25')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
@@ -3544,11 +3574,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['hrDcm37'] = { url, downloadName, blob };
 
       const ids = decodeURIComponent(response.headers.get('x-chip-id') || '-');
       const patchBase = response.headers.get('x-chip-patch-base') || '-';
@@ -3561,7 +3587,8 @@
         `Marca: Hyundai • Modelo: HR • ECU: Delphi DCM3.7<br>` +
         `Identificadores: ${ids}<br>` +
         `Patch base: ${patchBase}<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('hrDcm37')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
@@ -3617,11 +3644,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['amarokEdc17c54'] = { url, downloadName, blob };
 
       const part = response.headers.get('x-chip-part') || '-';
       const sw = response.headers.get('x-chip-sw') || '-';
@@ -3638,7 +3661,8 @@
         `Marca: Volkswagen • Modelo: Amarok • ECU: Bosch EDC17C54<br>` +
         `Part: ${part} • SW: ${sw} • ID: ${idOffset}<br>` +
         `Patch base: ${patchBase} (${patchPart} / ${patchSw})<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('amarokEdc17c54')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
@@ -3694,11 +3718,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['ducatoMjd8f3'] = { url, downloadName, blob };
 
       const hw = response.headers.get('x-chip-hw') || '-';
       const sw = response.headers.get('x-chip-sw') || '-';
@@ -3714,7 +3734,8 @@
         `Marca: Fiat • Modelo: Ducato MultiJet 2.3 • ECU: Magneti Marelli MJD8F3<br>` +
         `HW: ${hw} • SW: ${sw} • ID: ${idOffset}<br>` +
         `Patch base: ${patchHw} / ${patchSw}<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('ducatoMjd8f3')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
@@ -3770,11 +3791,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['fiatIaw7gfP0420'] = { url, downloadName, blob };
 
       const id = response.headers.get('x-chip-id') || '-';
       const hw = response.headers.get('x-chip-hw') || '-';
@@ -3790,7 +3807,8 @@
         `Marca: Fiat • ECU: Magneti Marelli IAW 7GF • Sistema: P0420<br>` +
         `ID: ${id} • HW: ${hw} • Offset: ${idOffset}<br>` +
         `Patch base: ${patchBase} (${patchHw})<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('fiatIaw7gfP0420')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
@@ -3846,11 +3864,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['gmE83'] = { url, downloadName, blob };
 
       const sw = response.headers.get('x-chip-sw') || '-';
       const part = response.headers.get('x-chip-part') || '-';
@@ -3865,7 +3879,8 @@
         `Marca: GM • ECU: E83 • Veiculo: ${patchBase}<br>` +
         `SW: ${sw} • Part: ${part}<br>` +
         `Patch base: ${patchBase} / ${patchSw}<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('gmE83')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
@@ -3921,11 +3936,7 @@
       const filenameMatch = disposition.match(/filename="([^"]+)"/);
       const downloadName = filenameMatch ? filenameMatch[1] : `${file.name.replace(/\.[^.]+$/, '')}_reparado.bin`;
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = downloadName;
-      a.click();
-      URL.revokeObjectURL(url);
+      scriptResults['gmE84P0420'] = { url, downloadName, blob };
 
       const sw = response.headers.get('x-chip-sw') || '-';
       const ids = decodeURIComponent(response.headers.get('x-chip-id') || '-');
@@ -3940,7 +3951,8 @@
         `SW: ${sw}<br>` +
         `Identificadores: ${ids}<br>` +
         `Patch base: ${patchBase}<br>` +
-        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}`,
+        `Runs aplicados: ${runs} • Bytes de reset: ${bytesWritten} • Bytes alterados neste arquivo: ${bytesChanged}` +
+        `<br><br><button onclick="downloadScriptResult('gmE84P0420')" class="hex-file-btn" style="border-color:rgba(41,182,246,0.5);color:var(--text-primary);background:rgba(41,182,246,0.10);">Baixar arquivo reparado</button>`,
         'success'
       );
     } catch (error) {
