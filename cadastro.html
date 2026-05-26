@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase-config.js"></script>
   <style>
     :root {
       --bg-body: #050505;
@@ -402,11 +404,44 @@
     return ok;
   }
 
-  function handleCadastro(e) {
+  async function handleCadastro(e) {
     e.preventDefault();
     const checks = [validarNome(), validarEmail(), validarWhatsApp(), validarSenha(), validarSenha2()];
-    if (checks.every(Boolean)) {
+    if (!checks.every(Boolean)) return;
+
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const senha = document.getElementById('senha').value;
+
+    const btn = document.getElementById('btnSubmit');
+    const originalText = btn ? btn.textContent : 'Criar conta';
+    if (btn) { btn.disabled = true; btn.textContent = 'Criando conta...'; }
+
+    try {
+      const client = getSupabase();
+      if (!client) throw new Error('Supabase não inicializado');
+
+      const { data, error } = await client.auth.signUp({
+        email,
+        password: senha,
+        options: {
+          data: {
+            full_name: nome,
+            whatsapp: whatsapp
+          }
+        }
+      });
+
+      if (error) throw error;
+
+      // Cadastro criado — redireciona para o app (Supabase Auth trigger já criou o profile)
       window.location.href = 'index.html';
+    } catch (err) {
+      if (btn) { btn.disabled = false; btn.textContent = originalText; }
+      const errEmail = document.getElementById('error-email');
+      errEmail.textContent = err.message || 'Erro ao criar conta. Tente novamente.';
+      errEmail.style.display = 'block';
     }
   }
 </script>

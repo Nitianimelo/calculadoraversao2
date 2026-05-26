@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase-config.js"></script>
   <style>
     :root {
       --bg-body: #0c0e14;
@@ -1601,7 +1603,7 @@
           Sua conta
         </a>
         <div class="dropdown-sep"></div>
-        <a href="login.html" class="dropdown-logout">
+        <a href="javascript:void(0)" class="dropdown-logout" onclick="logout()">
           <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Sair
         </a>
@@ -4005,6 +4007,73 @@
     renderHexTable(compareDataB, 'hexViewerB', { diffs: compareDiffs });
     updateCompareMeta();
   }
+
+  /* ========== Supabase Auth Session ========== */
+  async function initSession() {
+    const client = getSupabase();
+    if (!client) return;
+
+    const { data: { session } } = await client.auth.getSession();
+    if (!session) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    const user = session.user;
+    const userMeta = user.user_metadata || {};
+
+    // Busca profile e subscription no banco
+    const { data: profile } = await client
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    const { data: subs } = await client
+      .from('user_subscriptions')
+      .select('*, plans(name, max_devices)')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const fullName = profile?.full_name || userMeta?.full_name || 'Usuário';
+    const email = user.email || 'user@chipro.com.br';
+    const initials = fullName.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() || 'CH';
+    const planName = subs?.plans?.name || 'Free';
+    const validUntil = subs?.valid_until ? new Date(subs.valid_until).toLocaleDateString('pt-BR') : '-';
+    const maxDevices = subs?.plans?.max_devices || 1;
+
+    // Atualiza sidebar
+    const avatarEl = document.querySelector('.account-btn .avatar');
+    const nameEl = document.querySelector('.account-btn span');
+    if (avatarEl) avatarEl.textContent = initials;
+    if (nameEl) nameEl.textContent = fullName;
+
+    // Atualiza página de conta
+    const contaAvatar = document.querySelector('#page-conta .card .avatar');
+    const contaName = document.querySelector('#page-conta .card div div:first-child');
+    const contaEmail = document.querySelector('#page-conta .card div div:nth-child(2)');
+    const planoVal = document.querySelector('#page-conta .card > div:last-child > div:nth-child(1) span:last-child');
+    const validadeVal = document.querySelector('#page-conta .card > div:last-child > div:nth-child(2) span:last-child');
+    const dispVal = document.querySelector('#page-conta .card > div:last-child > div:nth-child(3) span:last-child');
+
+    if (contaAvatar) contaAvatar.textContent = initials;
+    if (contaName) contaName.textContent = fullName;
+    if (contaEmail) contaEmail.textContent = email;
+    if (planoVal) planoVal.textContent = planName;
+    if (validadeVal) validadeVal.textContent = validUntil;
+    if (dispVal) dispVal.textContent = `1 de ${maxDevices} ativos`;
+  }
+
+  // Real logout via Supabase
+  async function logout() {
+    const client = getSupabase();
+    if (client) await client.auth.signOut();
+    window.location.href = 'login.html';
+  }
+
+  initSession();
 
   // Inicializa tema salvo
   initTheme();
