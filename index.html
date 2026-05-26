@@ -4013,8 +4013,8 @@
     const client = getSupabase();
     if (!client) return;
 
-    const { data: { session } } = await client.auth.getSession();
-    if (!session) {
+    const { data: { session }, error: sessionError } = await client.auth.getSession();
+    if (sessionError || !session) {
       window.location.href = 'login.html';
       return;
     }
@@ -4022,20 +4022,32 @@
     const user = session.user;
     const userMeta = user.user_metadata || {};
 
-    // Busca profile e subscription no banco
-    const { data: profile } = await client
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single();
+    let profile = null;
+    let subs = null;
 
-    const { data: subs } = await client
-      .from('user_subscriptions')
-      .select('*, plans(name, max_devices)')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    try {
+      const { data: p } = await client
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .maybeSingle();
+      profile = p;
+    } catch (e) {
+      console.warn('Erro ao buscar profile:', e);
+    }
+
+    try {
+      const { data: s } = await client
+        .from('user_subscriptions')
+        .select('*, plans(name, max_devices)')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      subs = s;
+    } catch (e) {
+      console.warn('Erro ao buscar subscription:', e);
+    }
 
     const fullName = profile?.full_name || userMeta?.full_name || 'Usuário';
     const email = user.email || 'user@chipro.com.br';

@@ -435,24 +435,30 @@
 
       if (error) throw error;
 
-      // Se o Supabase exigir confirmação de e-mail, session será null
-      if (!data.session) {
-        if (btn) { btn.disabled = false; btn.textContent = originalText; }
-        const card = document.querySelector('.card');
-        if (card) {
-          const existing = card.querySelector('.verify-banner');
-          if (existing) existing.remove();
-          const banner = document.createElement('div');
-          banner.className = 'verify-banner';
-          banner.style.cssText = 'margin-top:18px;padding:14px 16px;border-radius:10px;background:rgba(46,213,115,0.08);border:1px solid rgba(46,213,115,0.25);color:#b8f5ce;font-size:13px;line-height:1.5;';
-          banner.innerHTML = '<strong>Conta criada!</strong><br>Enviamos um link de confirmação para <strong>' + email + '</strong>. Verifique sua caixa de entrada (e spam) para ativar sua conta.';
-          card.appendChild(banner);
-        }
+      // Se houver sessão (autoconfirm ativo), insere o profile diretamente
+      if (data.session) {
+        await client.from('profiles').upsert({
+          id: data.user.id,
+          full_name: nome,
+          whatsapp: whatsapp,
+          email: email
+        }, { onConflict: 'id' });
+        window.location.href = 'index.html';
         return;
       }
 
-      // Cadastro criado e já autenticado — redireciona para o app
-      window.location.href = 'index.html';
+      // Se o Supabase exigir confirmação de e-mail, session será null
+      if (btn) { btn.disabled = false; btn.textContent = originalText; }
+      const card = document.querySelector('.card');
+      if (card) {
+        const existing = card.querySelector('.verify-banner');
+        if (existing) existing.remove();
+        const banner = document.createElement('div');
+        banner.className = 'verify-banner';
+        banner.style.cssText = 'margin-top:18px;padding:14px 16px;border-radius:10px;background:rgba(46,213,115,0.08);border:1px solid rgba(46,213,115,0.25);color:#b8f5ce;font-size:13px;line-height:1.5;';
+        banner.innerHTML = '<strong>Conta criada!</strong><br>Enviamos um link de confirmação para <strong>' + email + '</strong>. Verifique sua caixa de entrada (e spam) para ativar sua conta.';
+        card.appendChild(banner);
+      }
     } catch (err) {
       if (btn) { btn.disabled = false; btn.textContent = originalText; }
       const errEmail = document.getElementById('error-email');
