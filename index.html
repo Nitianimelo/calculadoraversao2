@@ -4036,6 +4036,20 @@
       console.warn('Erro ao buscar profile:', e);
     }
 
+    // Auto-cria o profile se não existir (ex: após confirmação de email)
+    if (!profile) {
+      try {
+        await client.from('profiles').upsert({
+          id: user.id,
+          full_name: userMeta.full_name || user.email?.split('@')[0] || 'Usuário',
+          whatsapp: userMeta.whatsapp || null
+        }, { onConflict: 'id' });
+        profile = { full_name: (userMeta.full_name || user.email?.split('@')[0] || 'Usuário') };
+      } catch (e) {
+        console.warn('Erro ao criar profile:', e);
+      }
+    }
+
     try {
       const { data: s } = await client
         .from('user_subscriptions')
@@ -4047,6 +4061,31 @@
       subs = s;
     } catch (e) {
       console.warn('Erro ao buscar subscription:', e);
+    }
+
+    // Auto-cria subscription Free se não existir
+    if (!subs) {
+      try {
+        const { data: freePlan } = await client
+          .from('plans')
+          .select('id')
+          .eq('name', 'Free')
+          .limit(1)
+          .maybeSingle();
+        if (freePlan) {
+          const validUntil = new Date();
+          validUntil.setFullYear(validUntil.getFullYear() + 1);
+          await client.from('user_subscriptions').upsert({
+            user_id: user.id,
+            plan_id: freePlan.id,
+            active: true,
+            valid_until: validUntil.toISOString()
+          }, { onConflict: 'user_id' });
+          subs = { plans: { name: 'Free', max_devices: 1 } };
+        }
+      } catch (e) {
+        console.warn('Erro ao criar subscription:', e);
+      }
     }
 
     const fullName = profile?.full_name || userMeta?.full_name || 'Usuário';

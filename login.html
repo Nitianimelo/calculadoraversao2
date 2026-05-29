@@ -11,18 +11,18 @@
   <script src="supabase-config.js"></script>
   <style>
     :root {
-      --bg-body: #06070a;
-      --bg-card: rgba(18, 28, 48, 0.45);
+      --bg-body: #0d0b14;
+      --bg-card: #181321;
       --bg-input: rgba(255,255,255,0.02);
-      --bg-hover: #121a2b;
-      --border: rgba(41,182,246,0.08);
-      --border-focus: rgba(41,182,246,0.5);
-      --text-primary: #eef4fa;
-      --text-secondary: #93a3b8;
-      --text-muted: #4a5d75;
-      --accent: #29B6F6;
-      --accent-dark: #4A90E2;
-      --accent-glow: rgba(41,182,246,0.20);
+      --bg-hover: #231d33;
+      --border: rgba(180, 130, 255, 0.08);
+      --border-focus: rgba(180, 130, 255, 0.5);
+      --text-primary: #f0edf7;
+      --text-secondary: #a89fc0;
+      --text-muted: #635a7a;
+      --accent: #38bdf8;
+      --accent-dark: #0ea5e9;
+      --accent-glow: rgba(56, 189, 248, 0.20);
       --error: #ff4757;
       --radius: 14px;
       --radius-sm: 10px;
@@ -66,7 +66,7 @@
       position: absolute;
       width: 800px;
       height: 800px;
-      background: radial-gradient(circle, rgba(41,182,246,0.04) 0%, transparent 60%);
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.04) 0%, transparent 60%);
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -75,8 +75,8 @@
     }
 
     .card {
-      background: linear-gradient(160deg, rgba(18, 28, 48, 0.65) 0%, rgba(10, 16, 30, 0.55) 100%);
-      border: 1px solid rgba(41,182,246,0.12);
+      background: linear-gradient(160deg, rgba(18, 30, 55, 0.7) 0%, rgba(8, 16, 32, 0.6) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.12);
       border-radius: var(--radius);
       padding: 36px 32px;
       width: 100%;
@@ -88,7 +88,7 @@
       box-shadow:
         0 24px 80px rgba(0,0,0,0.5),
         inset 0 1px 0 rgba(255,255,255,0.04),
-        0 0 60px rgba(41,182,246,0.06);
+        0 0 60px rgba(56, 189, 248, 0.06);
     }
 
     .card::before {
@@ -97,7 +97,7 @@
       inset: -1px;
       border-radius: inherit;
       padding: 1px;
-      background: linear-gradient(160deg, rgba(41,182,246,0.18), rgba(41,182,246,0.02) 50%, transparent);
+      background: linear-gradient(160deg, rgba(56, 189, 248, 0.18), rgba(56, 189, 248, 0.02) 50%, transparent);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
@@ -115,7 +115,7 @@
     .brand img {
       height: 48px;
       width: auto;
-      filter: drop-shadow(0 0 16px rgba(41,182,246,0.3));
+      filter: drop-shadow(0 0 16px rgba(56, 189, 248,0.3));
     }
 
     .brand h2 {
@@ -169,7 +169,7 @@
     input {
       width: 100%;
       background: rgba(0,0,0,0.15);
-      border: 1px solid rgba(41,182,246,0.10);
+      border: 1px solid rgba(56, 189, 248,0.10);
       border-radius: var(--radius-sm);
       padding: 13px 14px 13px 42px;
       color: var(--text-primary);
@@ -186,8 +186,8 @@
     }
 
     input:focus {
-      border-color: rgba(41,182,246,0.45);
-      box-shadow: 0 0 0 3px rgba(41,182,246,0.08), 0 0 20px rgba(41,182,246,0.06);
+      border-color: rgba(56, 189, 248,0.45);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248,0.08), 0 0 20px rgba(56, 189, 248,0.06);
       background: rgba(0,0,0,0.22);
     }
 
@@ -238,7 +238,7 @@
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(41,182,246,0.30), 0 0 0 1px rgba(41,182,246,0.15);
+      box-shadow: 0 8px 28px rgba(56, 189, 248,0.30), 0 0 0 1px rgba(56, 189, 248,0.15);
     }
 
     .btn:hover::before {
@@ -326,12 +326,12 @@
     resize();
     window.addEventListener('resize', resize);
 
-    const NODE_COLOR = 'rgba(41,182,246,0.55)';
-    const TRACE_COLOR = 'rgba(41,182,246,0.10)';
-    const TRACE_GLOW = 'rgba(41,182,246,0.04)';
-    const CHIP_BG = 'rgba(20, 35, 55, 0.6)';
-    const CHIP_BORDER = 'rgba(41,182,246,0.20)';
-    const CHIP_PINS = 'rgba(41,182,246,0.35)';
+    const NODE_COLOR = 'rgba(56, 189, 248, 0.55)';
+    const TRACE_COLOR = 'rgba(56, 189, 248, 0.10)';
+    const TRACE_GLOW = 'rgba(56, 189, 248, 0.04)';
+    const CHIP_BG = 'rgba(18, 30, 55, 0.6)';
+    const CHIP_BORDER = 'rgba(56, 189, 248, 0.20)';
+    const CHIP_PINS = 'rgba(56, 189, 248, 0.35)';
 
     function rand(min, max) { return Math.random() * (max - min) + min; }
     function randInt(min, max) { return Math.floor(rand(min, max)); }
@@ -424,8 +424,8 @@
 
       // Glow difuso central sutil
       const glow = ctx.createRadialGradient(W*0.5, H*0.5, 0, W*0.5, H*0.5, Math.min(W,H)*0.5);
-      glow.addColorStop(0, 'rgba(41,182,246,0.025)');
-      glow.addColorStop(1, 'rgba(41,182,246,0)');
+      glow.addColorStop(0, 'rgba(56, 189, 248, 0.025)');
+      glow.addColorStop(1, 'rgba(56, 189, 248, 0)');
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, W, H);
 
@@ -445,7 +445,7 @@
 
         // Trilho principal
         ctx.lineWidth = t.width;
-        ctx.strokeStyle = `rgba(41,182,246,${t.alpha})`;
+        ctx.strokeStyle = `rgba(56, 189, 248,${t.alpha})`;
         ctx.beginPath();
         ctx.moveTo(t.from.x, t.from.y);
         ctx.lineTo(t.corner.x, t.corner.y);
@@ -502,13 +502,13 @@
         // Glow do nó
         ctx.beginPath();
         ctx.arc(n.x, n.y, baseR + 5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(41,182,246,${n.active ? 0.08 : 0.04})`;
+        ctx.fillStyle = `rgba(56, 189, 248,${n.active ? 0.08 : 0.04})`;
         ctx.fill();
 
         // Nó central
         ctx.beginPath();
         ctx.arc(n.x, n.y, baseR, 0, Math.PI * 2);
-        ctx.fillStyle = n.active ? NODE_COLOR : 'rgba(41,182,246,0.25)';
+        ctx.fillStyle = n.active ? NODE_COLOR : 'rgba(56, 189, 248,0.25)';
         ctx.fill();
       }
 
@@ -545,13 +545,13 @@
         // Desenhar pulse
         ctx.beginPath();
         ctx.arc(x, y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(41,182,246,${p.alpha})`;
+        ctx.fillStyle = `rgba(56, 189, 248,${p.alpha})`;
         ctx.fill();
 
         // Glow do pulse
         ctx.beginPath();
         ctx.arc(x, y, p.size + 5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(41,182,246,${p.alpha * 0.3})`;
+        ctx.fillStyle = `rgba(56, 189, 248,${p.alpha * 0.3})`;
         ctx.fill();
       }
 
