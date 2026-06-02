@@ -433,35 +433,33 @@
         }
       });
 
-      if (error) throw error;
-
-      // Se houver sessão (autoconfirm ativo), insere o profile + subscription
-      if (data.session) {
-        await client.from('profiles').upsert({
-          id: data.user.id,
-          full_name: nome,
-          whatsapp: whatsapp
-        }, { onConflict: 'id' });
-
-        // Cria subscription Free automática
-        const { data: freePlan } = await client
-          .from('plans')
-          .select('id')
-          .eq('name', 'Free')
-          .limit(1)
-          .maybeSingle();
-
-        if (freePlan) {
-          const validUntil = new Date();
-          validUntil.setFullYear(validUntil.getFullYear() + 1);
-          await client.from('user_subscriptions').upsert({
-            user_id: data.user.id,
-            plan_id: freePlan.id,
-            active: true,
-            valid_until: validUntil.toISOString()
-          }, { onConflict: 'user_id' });
+      if (error) {
+        console.error('Erro completo Supabase:', {
+          message: error.message,
+          status: error.status,
+          code: error.code,
+          name: error.name
+        });
+        // Traduz erros comuns
+        const msg = error.message || '';
+        if (msg.includes('already registered') || msg.includes('already exists')) {
+          throw new Error('Este e-mail já está cadastrado.');
         }
+        if (msg.includes('rate limit') || msg.includes('too many')) {
+          throw new Error('Muitas tentativas. Aguarde alguns segundos e tente novamente.');
+        }
+        if (msg.includes('saving user')) {
+          throw new Error('Erro ao salvar usuário. Verifique se o e-mail é válido e tente novamente. Se o problema persistir, entre em contato.');
+        }
+        throw new Error(msg || 'Erro ao criar conta. Tente novamente.');
+      }
 
+      if (!data || !data.user) {
+        throw new Error('Nenhum dado retornado pelo Supabase.');
+      }
+
+      // Autoconfirm ativo: a trigger cria profile + subscription automaticamente
+      if (data.session) {
         window.location.href = 'index.html';
         return;
       }
